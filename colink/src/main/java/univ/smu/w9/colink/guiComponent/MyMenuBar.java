@@ -1,25 +1,27 @@
 package univ.smu.w9.colink.guiComponent;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import univ.smu.w9.colink.service.FtpService;
+import univ.smu.w9.colink.service.SshService;
+
 /**
  * MenuBar class
  * @author "SukHwanYoon"
  *
  */
-public class MenuBar implements MenuListener{
+public class MyMenuBar extends JMenuBar implements MenuListener{
 
-    private JMenuBar jMenuBar;
+    private FtpService ftpService;
+    private SshService sshService;
 
-    public MenuBar() {
-        jMenuBar = new JMenuBar();
+    public MyMenuBar(FtpService ftpService,SshService sshService) {
+        this.ftpService = ftpService;
+        this.sshService = sshService;
     }
 
     //초기화
@@ -53,15 +55,15 @@ public class MenuBar implements MenuListener{
         server.add(new JMenuItem("연결 종료"));
         server.addMenuListener(this);
 
-        jMenuBar.add(file);
-        jMenuBar.add(view);
-        jMenuBar.add(send);
-        jMenuBar.add(server);
+        this.add(file);
+        this.add(view);
+        this.add(send);
+        this.add(server);
     }
 
     // jMenuBar return
     public JMenuBar getJMenuBar(){
-        return this.jMenuBar;
+        return this;
     }
 
     public void menuSelected(MenuEvent e) {

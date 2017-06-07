@@ -1,6 +1,6 @@
 package univ.smu.w9.colink.service;
 
-public class SshService {
+public class FileService {
 
 
 }

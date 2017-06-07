@@ -40,6 +40,4 @@ public class userVO {
     public void setPort(int port) {
         this.port = port;
     }
-
-
 }

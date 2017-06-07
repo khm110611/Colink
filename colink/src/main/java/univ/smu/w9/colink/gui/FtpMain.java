@@ -2,10 +2,16 @@ package univ.smu.w9.colink.gui;
 
 import javax.swing.JFrame;
 
+import univ.smu.w9.colink.guiComponent.MyMenuBar;
+
 public class FtpMain extends JFrame{
 
-    public FtpMain(){
-
+    MyMenuBar menuBar;
+    public FtpMain(MyMenuBar menuBar){
+        // component init
+        this.menuBar = menuBar;
+        
+        // frame init
         this.setSize(600,400);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
