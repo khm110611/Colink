@@ -8,6 +8,11 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 
+/**
+ * 하단 전체 Tree
+ * @author "SukHwanYoon"
+ *
+ */
 public class MyJTree implements TreeSelectionListener{
 
     private JTree jTree;
