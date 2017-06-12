@@ -30,23 +30,28 @@ public class FtpService {
     // FTP channel
     ChannelSftp channelSFtp;
     // 사용자
-    UserVO sshUser;
+    UserVO ftpUser;
 
-    // Init FtpService
-    public FtpService(UserVO sshUser){
+    /**
+     * FTP Service Init
+     * @param ftpUser : FTP 사용자
+     */
+    public FtpService(UserVO ftpUser){
         jsch = new JSch();
-        this.sshUser = sshUser;
+        this.ftpUser = ftpUser;
     }
 
-    // SFTP connect
+    /**
+     *  SFTP Connect
+     */
     public void connect(){
 
         try {
             // 세션 객체 생성
-            session = jsch.getSession(sshUser.getUser(),sshUser.getHostName(),sshUser.getPort());
+            session = jsch.getSession(ftpUser.getUser(),ftpUser.getHostName(),ftpUser.getPort());
 
             // 비밀번호 설정
-            session.setPassword(sshUser.getPassword());
+            session.setPassword(ftpUser.getPassword());
 
             //세션 관련 정보 설정
             Properties config = new Properties();
@@ -69,7 +74,9 @@ public class FtpService {
         }
     }
 
-    // ssh disconnect
+    /**
+     * SFTP disconnect
+     */
     public void disconnect(){
         channelSFtp.disconnect();
         channel.disconnect();

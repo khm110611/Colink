@@ -31,13 +31,18 @@ public class SshService {
     // 사용자
     UserVO sshUser;
 
-    // Init SshService
+    /**
+     * SSH service init
+     * @param sshUser : ssh 사용자 정보
+     */
     public SshService(UserVO sshUser){
         jsch = new JSch();
         this.sshUser = sshUser;
     }
 
-    // SSH Connect
+    /**
+     * SSH Connect
+     */
     public void connect(){
 
         try {
@@ -68,10 +73,28 @@ public class SshService {
         }
     }
 
-    // SSH disconnect
+    /**
+     *  SSH disconnect
+     */
     public void disconnect(){
         channelExec.disconnect();
         channel.disconnect();
         session.disconnect();
+    }
+
+    /**
+     * 명령어 전송
+     * @param exec : 명령어
+     */
+    public void sendExec(String exec){
+        // 체널이 연결상태일때
+        if(channelExec.isConnected()){
+            channelExec.setCommand(exec);
+        }
+        // 연결종료시
+        else{
+
+        }
+
     }
 }
