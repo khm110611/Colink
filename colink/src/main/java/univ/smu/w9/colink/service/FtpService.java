@@ -1,13 +1,17 @@
 package univ.smu.w9.colink.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 import univ.smu.w9.colink.vo.UserVO;
 
@@ -81,5 +85,43 @@ public class FtpService {
         channelSFtp.disconnect();
         channel.disconnect();
         session.disconnect();
+    }
+
+    /**
+     * 파일 업로드
+     * @param catalinaHome : 파일경로
+     * @param file : 파일
+     */
+    public void upload(String catalinaHome,File file){
+        if(channelSFtp.isConnected()){
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+
+                // 경로이동
+                channelSFtp.cd(catalinaHome);
+
+                //파일 업로드
+                channelSFtp.put(fis,file.getName());
+            }
+            // 파일 존재하지 않을때
+            catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (SftpException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                try {
+                    // FileInputStream 종료
+                    fis.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }else{
+
+        }
     }
 }
