@@ -9,19 +9,22 @@ import java.io.File;
  */
 public class FileService {
 
-    FtpService ftpService;
 
-    SshService sshService;
 
     /**
      * 파일 서비스 초기화
-     * @param ftpService
-     * @param sshService
      */
-    public FileService(FtpService ftpService, SshService sshService) {
+    public FileService() {
         super();
-        this.ftpService = ftpService;
-        this.sshService = sshService;
+    }
+
+    /**
+     * 특정위치 파일/폴더 목록 가져오기
+     * @param path
+     * @return
+     */
+    public File[] search(String path){
+        return new File(path).listFiles();
     }
 
     /**

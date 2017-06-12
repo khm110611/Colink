@@ -3,11 +3,13 @@ package univ.smu.w9.colink.guiComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
+import univ.smu.w9.common.CommonItem;
 
 /**
  * MenuBar class
@@ -22,6 +24,8 @@ public class MyMenuBar extends JMenuBar implements MenuListener{
     public MyMenuBar(FtpService ftpService,SshService sshService) {
         this.ftpService = ftpService;
         this.sshService = sshService;
+        initMenuBar();
+
     }
 
     //초기화
@@ -31,6 +35,8 @@ public class MyMenuBar extends JMenuBar implements MenuListener{
         JMenu file   = new JMenu("파일");
         file.add(new JMenuItem("사이트 관리자"));
         file.add(new JMenuItem("종료"));
+        file.getItem(0).setIcon(UIManager.getIcon("FileChooser.listViewIcon"));
+        file.getItem(1).setIcon(UIManager.getIcon(""));
         file.addMenuListener(this);
 
         // 보기
@@ -59,6 +65,8 @@ public class MyMenuBar extends JMenuBar implements MenuListener{
         this.add(view);
         this.add(send);
         this.add(server);
+
+        this.setVisible(true);
     }
 
     // jMenuBar return

@@ -28,6 +28,7 @@ public class SshService {
 
     // 명령어 실행 channel
     ChannelExec channelExec;
+
     // 사용자
     UserVO sshUser;
 

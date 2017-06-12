@@ -22,7 +22,7 @@ import univ.smu.w9.colink.vo.UserVO;
  */
 public class FtpService {
 
-     // 연결 객체
+    // 연결 객체
     JSch jsch;
 
     // 연결 session
@@ -33,6 +33,7 @@ public class FtpService {
 
     // FTP channel
     ChannelSftp channelSFtp;
+
     // 사용자
     UserVO ftpUser;
 
