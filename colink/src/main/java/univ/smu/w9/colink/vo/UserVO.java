@@ -10,7 +10,7 @@ package univ.smu.w9.colink.vo;
  * @author "SukHwanYoon"
  *
  */
-public class userVO {
+public class UserVO {
     private String hostName;
     private String user;
     private String password;
