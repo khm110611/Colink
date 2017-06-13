@@ -1,6 +1,7 @@
 package univ.smu.w9.colink.main;
 
 import javax.swing.JFrame;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -13,7 +14,8 @@ import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.colink.vo.UserVO;
-import univ.smu.w9.common.CommonItem;
+import univ.smu.w9.common.CommonGUI;
+import univ.smu.w9.common.CommonString;
 
 public class Main extends JFrame{
 
@@ -37,8 +39,11 @@ public class Main extends JFrame{
     // Init Main Frame
     public Main() {
 
+        // UI Theme 설정
         try {
+            WebLookAndFeel.globalMenuFont = CommonGUI.PLAIN_PARA_FONT;
             UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
+
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -55,8 +60,8 @@ public class Main extends JFrame{
 
         //service Init
         ftpService = new FtpService(ftpUser);
-        fileService = new FileService();
         sshService = new SshService(sshUser);
+        fileService = new FileService();
 
         // GUI - Jpanel init
         ftpMain = new FtpMain(ftpService, fileService);
@@ -66,7 +71,7 @@ public class Main extends JFrame{
 
         this.add(ftpMain);
         this.setSize(1000,800);
-        this.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setJMenuBar(menuBar);
         this.setVisible(true);
         this.setTitle("Colink");

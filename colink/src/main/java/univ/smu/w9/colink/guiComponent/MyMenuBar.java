@@ -9,7 +9,7 @@ import javax.swing.event.MenuListener;
 
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
-import univ.smu.w9.common.CommonItem;
+import univ.smu.w9.common.CommonString;
 
 /**
  * MenuBar class
