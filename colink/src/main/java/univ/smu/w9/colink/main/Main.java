@@ -1,8 +1,6 @@
 package univ.smu.w9.colink.main;
 
 import javax.swing.JFrame;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -15,9 +13,13 @@ import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.colink.vo.UserVO;
 import univ.smu.w9.common.CommonGUI;
-import univ.smu.w9.common.CommonString;
 
 public class Main extends JFrame{
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -322639851091514382L;
 
     FtpMain ftpMain;
 
@@ -41,7 +43,8 @@ public class Main extends JFrame{
 
         // UI Theme 설정
         try {
-            WebLookAndFeel.globalMenuFont = CommonGUI.PLAIN_PARA_FONT;
+            WebLookAndFeel.globalMenuFont = CommonGUI.PLAIN_NORMAL_FONT;
+            WebLookAndFeel.globalControlFont = CommonGUI.PLAIN_SMALL_FONT;
             UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
 
         } catch (ClassNotFoundException e) {
@@ -70,7 +73,7 @@ public class Main extends JFrame{
         menuBar = new MyMenuBar(ftpService, sshService);
 
         this.add(ftpMain);
-        this.setSize(1000,800);
+        this.setSize(1016,830);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setJMenuBar(menuBar);
         this.setVisible(true);

@@ -18,6 +18,11 @@ import univ.smu.w9.common.CommonString;
  */
 public class MyMenuBar extends JMenuBar implements MenuListener{
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5351023900638347389L;
+
     private FtpService ftpService;
     private SshService sshService;
 

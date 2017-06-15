@@ -9,6 +9,9 @@ import java.awt.Font;
  */
 public class CommonGUI {
 
-     // Plain , 15크기
-    public static final Font PLAIN_PARA_FONT    = new Font("consalos",Font.PLAIN, 15);
+    // Plain , 12크기
+    public static final Font PLAIN_SMALL_FONT    = new Font("consalos",Font.PLAIN, 12);
+
+    // Plain , 15크기
+    public static final Font PLAIN_NORMAL_FONT    = new Font("consalos",Font.PLAIN, 15);
 }

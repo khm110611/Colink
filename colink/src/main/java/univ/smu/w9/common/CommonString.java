@@ -10,8 +10,8 @@ import java.awt.Font;
 public class CommonString {
 
     //바탕화면 경로
-    public static final String DESKTOP_PATH = System.getProperty("user.home");
+    public static final String DESKTOP_PATH = System.getProperty("user.home")+"/Desktop/";
 
 
-   
+
 }
