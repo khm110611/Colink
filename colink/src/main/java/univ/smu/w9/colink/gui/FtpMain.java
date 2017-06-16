@@ -1,7 +1,9 @@
 package univ.smu.w9.colink.gui;
 
 import javax.swing.JPanel;
-import univ.smu.w9.colink.guiComponent.MyJTree;
+
+import univ.smu.w9.colink.guiComponent.MyFileJTree;
+import univ.smu.w9.colink.guiComponent.MyFolderJTree;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.common.CommonString;
@@ -20,10 +22,10 @@ public class FtpMain extends JPanel{
 
     FtpService ftpService;
 
-    MyJTree userFolderTree;
-    MyJTree userFileTree;
-    MyJTree serverFolderTree;
-    MyJTree serverFileTree;
+    MyFolderJTree userFolderTree;
+    MyFileJTree userFileTree;
+    MyFolderJTree serverFolderTree;
+    MyFileJTree serverFileTree;
 
     FileService fileService;
 
@@ -35,16 +37,18 @@ public class FtpMain extends JPanel{
         this.fileService = fileService;
 
         // GUI Component
-        userFolderTree = new MyJTree(CommonString.DESKTOP_PATH,1);
-        userFileTree   = new MyJTree(CommonString.DESKTOP_PATH,2);
+        userFileTree   = new MyFileJTree(CommonString.DESKTOP_PATH);
+        userFolderTree = new MyFolderJTree(CommonString.DESKTOP_PATH,userFileTree);
+
 
         userFolderTree.getjScroll().setLocation(0,0);
         userFolderTree.getjScroll().setSize(500, 350);
         userFileTree.getjScroll().setLocation(0, 350);
         userFileTree.getjScroll().setSize(500, 200);
 
-        serverFolderTree = new MyJTree();
-        serverFileTree   = new MyJTree();
+        serverFileTree   = new MyFileJTree();
+        serverFolderTree = new MyFolderJTree();
+
 
         serverFolderTree.getjScroll().setLocation(500,0);
         serverFolderTree.getjScroll().setSize(500, 350);

@@ -7,13 +7,16 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 
 /**
- * 하단 전체 Tree
+ * File tree
  * @author "SukHwanYoon"
  *
  */
-public class MyJTree implements TreeSelectionListener{
+public class MyFileJTree implements TreeSelectionListener{
 
     /**
      * Jtree
@@ -31,19 +34,17 @@ public class MyJTree implements TreeSelectionListener{
     private DefaultMutableTreeNode root;
 
     /**
-     * operator
-     * 1 : 폴더트리
-     * 2 : 파일트리
+     * jTreeModel
      */
-    private int operator;
-
+    private DefaultTreeModel jTreeModel;
 
     /**
      * jTree 초기화
      */
-    public MyJTree() {
+    public MyFileJTree() {
         root = new DefaultMutableTreeNode();
         jTree = new JTree(root);
+        jTreeModel = (DefaultTreeModel) jTree.getModel();
         jScroll = new JScrollPane(jTree);
     }
 
@@ -51,17 +52,18 @@ public class MyJTree implements TreeSelectionListener{
      * jTree 초기화
      * @param rootName
      */
-    public MyJTree(String rootName,int operator){
+    public MyFileJTree(String rootName){
 
-        this.operator = operator;
 
         root = new DefaultMutableTreeNode();
         makeTreeModel(rootName,root);
 
         jTree = new JTree(root);
+        jTreeModel = (DefaultTreeModel) jTree.getModel();
         jTree.addTreeSelectionListener(this);
 
         jScroll = new JScrollPane(jTree);
+
     }
 
     /**
@@ -72,16 +74,7 @@ public class MyJTree implements TreeSelectionListener{
     public void initJTree(String rootName){
         root = new DefaultMutableTreeNode();
         makeTreeModel(rootName,root);
-
-        jTree.updateUI();
-    }
-
-    /**
-     * Make Tree Model
-     * @param rootName
-     */
-    public void makeTreeModel(String rootName,DefaultMutableTreeNode root){
-        makeTreeModel(rootName,root,0);
+        jTreeModel.setRoot(root);
     }
 
     /**
@@ -89,58 +82,37 @@ public class MyJTree implements TreeSelectionListener{
      * @param rootName
      * @param depth
      */
-    public void makeTreeModel(String rootName,DefaultMutableTreeNode root,int depth){
-        if(depth == 5){
-            root = new DefaultMutableTreeNode("");
-            return;
-        }
+    public void makeTreeModel(String rootName,DefaultMutableTreeNode root){
         int idx;
         //경로의 전체 파일 검색
         File rootFile = new File(rootName);
         File[] files = rootFile.listFiles();
         DefaultMutableTreeNode dmtBuf;
-        //폴더 트리 일 경우
-        if(this.operator == 1){
-            for(int i=0;i<files.length;i++){
-                if(files[i].isFile()){
-                    continue;
-                }
-
-                idx = files[i].getPath().indexOf("\\Desktop\\");
-                dmtBuf = new DefaultMutableTreeNode(files[i].getPath().substring(idx));
-
-                makeTreeModel(files[i].getPath(),dmtBuf,depth+1);
-
-                root.add(dmtBuf);
+        for(int i=0;i<files.length;i++){
+            if(files[i].isDirectory()){
+                continue;
             }
-       }
-       //파일 트리 일 경우
-        else if(this.operator == 2){
-            for(int i=0;i<files.length;i++){
-                if(files[i].isDirectory()){
-                    continue;
-                }
-                idx = files[i].getPath().indexOf("\\Desktop\\");
-                dmtBuf = new DefaultMutableTreeNode(files[i].getPath().substring(idx));
+            idx = files[i].getPath().indexOf("\\Desktop\\");
+            dmtBuf = new DefaultMutableTreeNode(files[i].getPath().substring(idx));
 
-                root.add(dmtBuf);
-            }
+            root.add(dmtBuf);
         }
     }
+
     /**
      * JScrollPane return
      */
     public JScrollPane getjScroll() {
         return jScroll;
     }
+
     /*
      * Tree Selection Listener
      * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
      */
-    public void valueChanged(TreeSelectionEvent e) {
+    public void valueChanged(TreeSelectionEvent arg0) {
         // TODO Auto-generated method stub
 
     }
-
 
 }
