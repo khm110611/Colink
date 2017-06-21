@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jcraft.jsch.JSchException;
+
 import univ.smu.w9.colink.vo.UserVO;
 import univ.smu.w9.common.CommonString;
 
@@ -30,8 +32,9 @@ public class SshServiceTest{
     }
 
     @Test
-    public void testPemConnect() throws IOException {
+    public void testPemConnect() throws IOException, JSchException {
         sshService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
+        sshService.sendExec("mkdir mingu");
         sshService.disconnect();
     }
     @Test

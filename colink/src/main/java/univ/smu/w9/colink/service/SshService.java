@@ -106,11 +106,14 @@ public class SshService {
             // 접속
             session.connect();
 
-            // sftp 채널 open
+            // ssh 채널 open
             channel = session.openChannel("exec");
 
             // ssh 채널 객체로 캐스팅
             channelExec = (ChannelExec)channel;
+            if(session.isConnected()){
+                System.out.println("hihi");
+            }
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -129,15 +132,17 @@ public class SshService {
     /**
      * 명령어 전송
      * @param exec : 명령어
+     * @throws JSchException
      */
-    public void sendExec(String exec){
-        // 체널이 연결상태일때
-        if(channelExec.isConnected()){
+    public void sendExec(String exec) throws JSchException{
+        //ssh 연결중일때
+        if(session.isConnected()){
             channelExec.setCommand(exec);
+            channelExec.connect();
         }
-        // 연결종료시
+        // 연결 해지시
         else{
-
+            System.out.println("fail");
         }
 
     }
