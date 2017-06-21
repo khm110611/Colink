@@ -1,9 +1,12 @@
 package univ.smu.w9.colink.service;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import univ.smu.w9.colink.vo.UserVO;
+import univ.smu.w9.common.CommonString;
 
 public class SshServiceTest{
     UserVO sshUser;
@@ -21,10 +24,16 @@ public class SshServiceTest{
     }
 
     @Test
-    public void testConnect() {
+    public void testConnect() throws IOException {
         sshService.connect();
+        sshService.disconnect();
     }
 
+    @Test
+    public void testPemConnect() throws IOException {
+        sshService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
+        sshService.disconnect();
+    }
     @Test
     public void testDisconnect() {
     }

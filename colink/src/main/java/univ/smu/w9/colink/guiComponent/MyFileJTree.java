@@ -89,9 +89,9 @@ public class MyFileJTree implements TreeSelectionListener{
         File[] files = rootFile.listFiles();
         DefaultMutableTreeNode dmtBuf;
         for(int i=0;i<files.length;i++){
-            if(files[i].isDirectory()){
-                continue;
-            }
+             if(files[i].isDirectory()){
+                 continue;
+             }
             idx = files[i].getPath().indexOf("\\Desktop\\");
             dmtBuf = new DefaultMutableTreeNode(files[i].getPath().substring(idx));
 

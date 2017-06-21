@@ -1,5 +1,8 @@
 package univ.smu.w9.colink.service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import com.jcraft.jsch.Channel;
@@ -31,6 +34,9 @@ public class SshService {
 
     // 사용자
     UserVO sshUser;
+
+    // pem file
+    String privateKey;
 
     /**
      * SSH service init
@@ -64,7 +70,44 @@ public class SshService {
             session.connect();
 
             // sftp 채널 open
-            Channel channel = session.openChannel("exec");
+            channel = session.openChannel("exec");
+
+            // ssh 채널 객체로 캐스팅
+            channelExec = (ChannelExec)channel;
+        } catch (JSchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Pem file 을 사용한 connect
+     * @param privateKey : pem File
+     * @throws IOException
+     */
+    public void connect(String privateKey) throws IOException{
+
+        try {
+            this.privateKey = privateKey;
+            // 세션 객체 생성
+            jsch.addIdentity(privateKey);
+            session = jsch.getSession(sshUser.getUser(),sshUser.getHostName(),sshUser.getPort());
+
+            // 비밀번호 설정
+            session.setPassword(sshUser.getPassword());
+
+            //세션 관련 정보 설정
+            Properties config = new Properties();
+
+            // 호스트 정보 검사 x
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+
+            // 접속
+            session.connect();
+
+            // sftp 채널 open
+            channel = session.openChannel("exec");
 
             // ssh 채널 객체로 캐스팅
             channelExec = (ChannelExec)channel;
