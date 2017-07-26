@@ -97,9 +97,6 @@ public class SshService {
             jsch.addIdentity(privateKey);
             session = jsch.getSession(sshUser.getUser(),sshUser.getHostName(),sshUser.getPort());
 
-            // 비밀번호 설정
-            session.setPassword(sshUser.getPassword());
-
             //세션 관련 정보 설정
             Properties config = new Properties();
 

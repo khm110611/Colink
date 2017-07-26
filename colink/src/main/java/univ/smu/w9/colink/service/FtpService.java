@@ -37,6 +37,9 @@ public class FtpService {
     // 사용자
     UserVO ftpUser;
 
+    // pem file
+    String privateKey;
+    
     /**
      * FTP Service Init
      * @param ftpUser : FTP 사용자
@@ -69,8 +72,8 @@ public class FtpService {
             session.connect();
 
             // sftp 채널 open
-            Channel channel = session.openChannel("exec");
-
+            channel = session.openChannel("ftp");
+            channel.connect();
             // ssh 채널 객체로 캐스팅
             channelSFtp = (ChannelSftp)channel;
         } catch (JSchException e) {
@@ -79,6 +82,39 @@ public class FtpService {
         }
     }
 
+    /**
+     *  SFTP Connect
+     */
+    public void connect(String privateKey){
+
+        try {
+        	this.privateKey = privateKey;
+            // 세션 객체 생성
+            jsch.addIdentity(privateKey);
+            // 세션 객체 생성
+            session = jsch.getSession(ftpUser.getUser(),ftpUser.getHostName(),ftpUser.getPort());
+
+            //세션 관련 정보 설정
+            Properties config = new Properties();
+
+            // 호스트 정보 검사 x
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+
+            // 접속
+            session.connect();
+
+            // sftp 채널 open
+            channel = session.openChannel("sftp");
+            channel.connect();
+            // ssh 채널 객체로 캐스팅
+            channelSFtp = (ChannelSftp)channel;
+        } catch (JSchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * SFTP disconnect
      */
@@ -92,13 +128,13 @@ public class FtpService {
      * 파일 업로드
      * @param catalinaHome : 파일경로
      * @param file : 파일
+     * @throws IOException 
      */
     public void upload(String catalinaHome,File file){
-        if(channelSFtp.isConnected()){
+        if(session.isConnected()){
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(file);
-
                 // 경로이동
                 channelSFtp.cd(catalinaHome);
 
@@ -114,6 +150,7 @@ public class FtpService {
                 e.printStackTrace();
             } finally {
                 try {
+                	System.out.println("hihi");
                     // FileInputStream 종료
                     fis.close();
                 } catch (IOException e) {
@@ -122,7 +159,7 @@ public class FtpService {
                 }
             }
         }else{
-
+        	System.out.println("hihi");
         }
     }
 }
