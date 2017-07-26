@@ -25,7 +25,6 @@ public class SshServiceTest{
         sshService = new SshService(sshUser);
     }
 
-    @Test
     public void testConnect() throws IOException {
         sshService.connect();
         sshService.disconnect();
@@ -34,7 +33,7 @@ public class SshServiceTest{
     @Test
     public void testPemConnect() throws IOException, JSchException {
         sshService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
-        sshService.sendExec("mkdir mingu");
+        sshService.sendExec("ls -al");
         sshService.disconnect();
     }
     @Test

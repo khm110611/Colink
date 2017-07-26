@@ -1,7 +1,10 @@
 package univ.smu.w9.colink.service;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Properties;
 
@@ -37,7 +40,8 @@ public class SshService {
 
     // pem file
     String privateKey;
-
+    
+    
     /**
      * SSH service init
      * @param sshUser : ssh 사용자 정보
@@ -111,9 +115,7 @@ public class SshService {
 
             // ssh 채널 객체로 캐스팅
             channelExec = (ChannelExec)channel;
-            if(session.isConnected()){
-                System.out.println("hihi");
-            }
+            
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -133,12 +135,20 @@ public class SshService {
      * 명령어 전송
      * @param exec : 명령어
      * @throws JSchException
+     * @throws IOException 
      */
-    public void sendExec(String exec) throws JSchException{
+    public void sendExec(String exec) throws JSchException, IOException{
         //ssh 연결중일때
         if(session.isConnected()){
             channelExec.setCommand(exec);
             channelExec.connect();
+            
+            BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
+            String str;
+            while((str = br.readLine()) != null){
+            	System.out.println(str);	
+            }
+            
         }
         // 연결 해지시
         else{
