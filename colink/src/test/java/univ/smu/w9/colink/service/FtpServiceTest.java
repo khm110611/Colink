@@ -45,4 +45,11 @@ public class FtpServiceTest {
     @Test
     public void testSendExec() {
     }
+    
+    @Test
+    public void testGetFileList(){
+    	ftpService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
+    	ftpService.getFileList("/home/ubuntu");
+    	ftpService.disconnect();
+    }
 }

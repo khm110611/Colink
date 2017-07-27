@@ -83,7 +83,6 @@ public class MyFileJTree implements TreeSelectionListener{
      * @param depth
      */
     public void makeTreeModel(String rootName,DefaultMutableTreeNode root){
-        int idx;
         //경로의 전체 파일 검색
         File rootFile = new File(rootName);
         File[] files = rootFile.listFiles();
@@ -92,8 +91,7 @@ public class MyFileJTree implements TreeSelectionListener{
              if(files[i].isDirectory()){
                  continue;
              }
-            idx = files[i].getPath().indexOf("\\Desktop\\");
-            dmtBuf = new DefaultMutableTreeNode(files[i].getPath().substring(idx));
+            dmtBuf = new DefaultMutableTreeNode(files[i].getPath());
 
             root.add(dmtBuf);
         }

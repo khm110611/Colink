@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -161,5 +163,19 @@ public class FtpService {
         }else{
         	System.out.println("hihi");
         }
+    }
+    
+    /**
+     * 파일 리스트 가져오기
+     * @param catalinaHome : 경로
+     * @return
+     */
+    public Vector getFileList(String catalinaHome){
+    	try {
+    		return channelSFtp.ls(catalinaHome);
+		} catch (SftpException e) {
+			e.printStackTrace();
+		}
+		return null;
     }
 }

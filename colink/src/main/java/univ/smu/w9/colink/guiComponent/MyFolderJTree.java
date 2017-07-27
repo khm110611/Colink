@@ -103,10 +103,12 @@ public class MyFolderJTree implements TreeSelectionListener{
         File rootFile = new File(rootName);
         File[] files = rootFile.listFiles();
         DefaultMutableTreeNode dmtBuf;
-
+        // 파일이 없을경우
+        if(files == null){
+        	return;
+        }
         if(files.length > 0){
-            idx = files[0].getPath().indexOf("\\Desktop\\");
-            hidePath = files[0].getPath().substring(0,idx);
+            hidePath = files[0].getPath();
         }
 
         for(int i=0;i<files.length;i++){
@@ -114,7 +116,7 @@ public class MyFolderJTree implements TreeSelectionListener{
                 continue;
             }
 
-            dmtBuf = new DefaultMutableTreeNode(files[i].getPath().substring(idx));
+            dmtBuf = new DefaultMutableTreeNode(files[i].getPath());
 
             makeTreeModel(files[i].getPath(),dmtBuf,depth+1);
 
