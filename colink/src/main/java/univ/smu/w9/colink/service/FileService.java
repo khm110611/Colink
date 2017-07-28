@@ -1,6 +1,10 @@
 package univ.smu.w9.colink.service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import univ.smu.w9.colink.vo.SiteVO;
 
 /**
  * 파일 Service
@@ -59,5 +63,19 @@ public class FileService {
         file.renameTo(fileName);
     }
 
+    /**
+     * 파일에 저장된 사이트 리스트 가져오기
+     * @return
+     */
+    public List<SiteVO> getSiteList(){
+        List<SiteVO> siteList = new ArrayList<SiteVO>();
+        return siteList;
+    }
 
+    /**
+     * 사이트 리스트 파일에 저장
+     */
+    public void saveSiteList(List<SiteVO> siteList){
+
+    }
 }

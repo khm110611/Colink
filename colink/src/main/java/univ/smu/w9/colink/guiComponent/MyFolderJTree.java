@@ -7,7 +7,6 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 
 /**
  * 폴더 Tree
@@ -44,11 +43,6 @@ public class MyFolderJTree implements TreeSelectionListener{
         jTree = new JTree(root);
         jScroll = new JScrollPane(jTree);
     }
-
-    /**
-     * Desktop이전 파일 path
-     */
-    private String hidePath;
 
     /**
      * jTree 초기화
@@ -105,10 +99,7 @@ public class MyFolderJTree implements TreeSelectionListener{
         DefaultMutableTreeNode dmtBuf;
         // 파일이 없을경우
         if(files == null){
-        	return;
-        }
-        if(files.length > 0){
-            hidePath = files[0].getPath();
+            return;
         }
 
         for(int i=0;i<files.length;i++){
@@ -134,11 +125,10 @@ public class MyFolderJTree implements TreeSelectionListener{
      * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
      */
     public void valueChanged(TreeSelectionEvent e) {
-        JTree treeNode = (JTree)e.getSource();
-        File file = new File(hidePath+treeNode.getSelectionPath().getLastPathComponent().toString());
-
-        fileJTree.initJTree(file.getPath());
-
+        if(jTree.getLastSelectedPathComponent() != null){
+            File file = new File(jTree.getLastSelectedPathComponent().toString());
+            fileJTree.initJTree(file.getPath());
+        }
     }
 
 
