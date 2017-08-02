@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import univ.smu.w9.colink.gui.SiteManageMain;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.common.CommonString;
@@ -83,7 +84,7 @@ public class MyMenuBar extends JMenuBar implements MenuListener{
         JMenuItem jmib = (JMenuItem) e.getSource();
         String jmibT = jmib.getText();
         if(jmibT.equals("사이트 관리자")){
-
+            new SiteManageMain(ftpService, sshService);
         }else if(jmib.equals("종료")){
             System.exit(-1);
         }else if(jmib.equals("파일 목록 상태 표시줄")){

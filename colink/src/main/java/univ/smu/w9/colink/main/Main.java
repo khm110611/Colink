@@ -7,12 +7,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.alee.laf.WebLookAndFeel;
 
 import univ.smu.w9.colink.gui.FtpMain;
+import univ.smu.w9.colink.gui.SshMain;
 import univ.smu.w9.colink.guiComponent.MyMenuBar;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.colink.vo.UserVO;
 import univ.smu.w9.common.CommonGUI;
+import java.awt.BorderLayout;
 
 public class Main extends JFrame{
 
@@ -22,7 +24,7 @@ public class Main extends JFrame{
     private static final long serialVersionUID = -322639851091514382L;
 
     FtpMain ftpMain;
-
+    SshMain sshMain;
     //ssh 연결 정보
     UserVO sshUser;
     //ftp 연결 정보
@@ -68,11 +70,17 @@ public class Main extends JFrame{
 
         // GUI - Jpanel init
         ftpMain = new FtpMain(ftpService, fileService);
-
+        ftpMain.setSize(1000, 550);
+        sshMain = new SshMain(sshService);
+        sshMain.setSize(1000, 220);
+        sshMain.setLocation(0, 548);
         // GUI - component init
         menuBar = new MyMenuBar(ftpService, sshService);
 
-        this.add(ftpMain);
+
+        getContentPane().setLayout(null);
+        getContentPane().add(ftpMain);
+        getContentPane().add(sshMain);
         this.setSize(1016,830);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setJMenuBar(menuBar);

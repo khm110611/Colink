@@ -1,6 +1,7 @@
 package univ.smu.w9.guiFrame;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import univ.smu.w9.colink.guiComponent.MySiteTree;
 import univ.smu.w9.colink.service.FileService;
@@ -10,7 +11,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MySiteLeftFrame extends JFrame implements ActionListener{
+public class MySiteLeftPanel extends JPanel implements ActionListener{
 
     /**
      *
@@ -30,14 +31,14 @@ public class MySiteLeftFrame extends JFrame implements ActionListener{
     private JButton changeName;
     private JButton deleteSite;
 
-    public MySiteLeftFrame(FileService fileService) {
-        getContentPane().setLayout(null);
+    public MySiteLeftPanel(FileService fileService) {
+        this.setLayout(null);
         this.fileService = fileService;
         mySiteTree = new MySiteTree(fileService);
 
         mySiteTree.getjScroll().setSize(190,400);
         mySiteTree.getjScroll().setLocation(0, 0);
-        getContentPane().add(mySiteTree.getjScroll());
+        this.add(mySiteTree.getjScroll());
 
         newSite = new JButton("새 사이트");
         newSite.setBounds(12, 435, 160, 36);

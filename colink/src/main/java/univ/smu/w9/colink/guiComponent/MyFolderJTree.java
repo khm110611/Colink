@@ -52,7 +52,7 @@ public class MyFolderJTree implements TreeSelectionListener{
 
         this.fileJTree = fileJTree;
 
-        root = new DefaultMutableTreeNode();
+        root = new DefaultMutableTreeNode(rootName);
         makeTreeModel(rootName,root);
 
         jTree = new JTree(root);

@@ -14,6 +14,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+import univ.smu.w9.colink.guiComponent.MySshArea;
 import univ.smu.w9.colink.vo.UserVO;
 
 /**
@@ -24,24 +25,26 @@ import univ.smu.w9.colink.vo.UserVO;
 public class SshService {
 
     // 연결 객체
-    JSch jsch;
+    private JSch jsch;
 
     // 연결 session
-    Session session;
+    private Session session;
 
     // 연결 channel
-    Channel channel;
+    private Channel channel;
 
     // 명령어 실행 channel
-    ChannelExec channelExec;
+    private ChannelExec channelExec;
 
     // 사용자
-    UserVO sshUser;
+    private UserVO sshUser;
 
     // pem file
-    String privateKey;
-    
-    
+    private String privateKey;
+
+    // My sshArea
+    private MySshArea mySshaArea;
+
     /**
      * SSH service init
      * @param sshUser : ssh 사용자 정보
@@ -112,7 +115,7 @@ public class SshService {
 
             // ssh 채널 객체로 캐스팅
             channelExec = (ChannelExec)channel;
-            
+
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -132,20 +135,20 @@ public class SshService {
      * 명령어 전송
      * @param exec : 명령어
      * @throws JSchException
-     * @throws IOException 
+     * @throws IOException
      */
     public void sendExec(String exec) throws JSchException, IOException{
         //ssh 연결중일때
         if(session.isConnected()){
             channelExec.setCommand(exec);
             channelExec.connect();
-            
+
             BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
             String str;
             while((str = br.readLine()) != null){
-            	System.out.println(str);	
+                System.out.println(str);
             }
-            
+
         }
         // 연결 해지시
         else{

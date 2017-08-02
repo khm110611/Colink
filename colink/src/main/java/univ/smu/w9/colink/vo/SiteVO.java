@@ -111,4 +111,30 @@ public class SiteVO {
         this.ftpPemFile = ftpPemFile;
     }
 
+
+    public SiteVO(String siteName, String sshSiteAdres, String sshConType, String sshPemFile,String ftpSiteAdres, String ftpPemFile) {
+        super();
+        this.siteName = siteName;
+        this.sshSiteAdres = sshSiteAdres;
+        this.sshConType = sshConType;
+        this.sshPemFile = sshPemFile;
+        this.ftpSiteAdres = ftpSiteAdres;
+        this.ftpPemFile = ftpPemFile;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.siteName+",");
+        sb.append(this.sshSiteAdres+",");
+        sb.append(this.sshConType+",");
+        sb.append(this.sshPemFile+",");
+        sb.append(this.ftpSiteAdres+",");
+        sb.append(this.ftpPemFile+",");
+        sb.append(this.ftpUser.toString()+",");
+        sb.append(this.sshUser.toString());
+        return sb.toString();
+    }
+
+
 }

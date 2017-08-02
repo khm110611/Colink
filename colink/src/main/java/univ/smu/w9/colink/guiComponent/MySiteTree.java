@@ -1,5 +1,6 @@
 package univ.smu.w9.colink.guiComponent;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,12 +41,15 @@ public class MySiteTree {
     private FileService fileService;
 
     public MySiteTree(FileService fileService) {
-        root = new DefaultMutableTreeNode("사이트 목록");
-        jtree = new JTree(root);
-        jScroll = new JScrollPane(jtree);
-        this.fileService = fileService;
-
-        siteList = fileService.getSiteList();
+        try {
+            root = new DefaultMutableTreeNode("사이트 목록");
+            jtree = new JTree(root);
+            jScroll = new JScrollPane(jtree);
+            this.fileService = fileService;
+            siteList = fileService.getSiteList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if(!siteList.isEmpty()){
             makeTreeNode();
@@ -87,7 +91,12 @@ public class MySiteTree {
      * 사이트 리스트파일에 저장하기
      */
     public void saveSiteList(){
-        fileService.saveSiteList(siteList);
+        try {
+            fileService.saveSiteList(siteList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**

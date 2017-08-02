@@ -1,18 +1,21 @@
 package univ.smu.w9.colink.gui;
 
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
+import univ.smu.w9.guiFrame.MySiteLeftPanel;
+import univ.smu.w9.guiFrame.MySiteRightPanel;
 
 /**
  * 사이트 관리자 화면
  * @author "SukHwanYoon"
  *
  */
-public class SiteManageMain extends JPanel{
+public class SiteManageMain extends JFrame{
 
     /**
      *
@@ -23,11 +26,18 @@ public class SiteManageMain extends JPanel{
     private SshService sshService;
     private FileService fileService;
 
+    private MySiteLeftPanel mySiteLeftPanel;
+    private MySiteRightPanel mySiteRightPanel;
+
     public SiteManageMain(FtpService ftpService,SshService sshService) {
         this.ftpService = ftpService;
         this.sshService = sshService;
-
+        mySiteLeftPanel = new MySiteLeftPanel(fileService);
+        mySiteRightPanel = new MySiteRightPanel();
+        this.add(mySiteLeftPanel);
+        this.add(mySiteRightPanel);
         this.setSize(600,700);
+        this.setVisible(true);
         changeVisible();
     }
 

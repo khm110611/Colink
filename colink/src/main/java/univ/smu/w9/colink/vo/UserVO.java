@@ -14,8 +14,20 @@ public class UserVO {
     private String hostName;
     private String user;
     private String password;
-    private int    port;
+    private Integer port;
 
+
+
+    public UserVO() {
+        super();
+    }
+    public UserVO(String hostName, String user, String password, Integer port) {
+        super();
+        this.hostName = hostName;
+        this.user = user;
+        this.password = password;
+        this.port = port;
+    }
     public String getHostName() {
         return hostName;
     }
@@ -40,4 +52,14 @@ public class UserVO {
     public void setPort(int port) {
         this.port = port;
     }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.hostName+",");
+        sb.append(this.user+",");
+        sb.append(this.password+",");
+        sb.append(this.port);
+        return sb.toString();
+    }
+
 }

@@ -64,7 +64,6 @@ public class FtpMain extends JPanel{
 
         // frame init
         this.setLayout(null);
-        this.setSize(1000,720);
         this.setVisible(true);
     }
 }
