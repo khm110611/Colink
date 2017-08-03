@@ -41,7 +41,9 @@ public class FtpService {
 
     // pem file
     String privateKey;
-    
+
+    // 현재 사이트 pemFile사용 유무
+    boolean pemYn;
     /**
      * FTP Service Init
      * @param ftpUser : FTP 사용자
@@ -90,7 +92,7 @@ public class FtpService {
     public void connect(String privateKey){
 
         try {
-        	this.privateKey = privateKey;
+            this.privateKey = privateKey;
             // 세션 객체 생성
             jsch.addIdentity(privateKey);
             // 세션 객체 생성
@@ -116,21 +118,36 @@ public class FtpService {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * SFTP disconnect
      */
-    public void disconnect(){
+    public void disConnect(){
         channelSFtp.disconnect();
         channel.disconnect();
         session.disconnect();
     }
 
     /**
+     * 재연결
+     * @throws IOException
+     */
+    public boolean reConnect(){
+        if(this.ftpUser == null)
+            return false;
+        if(pemYn){
+            this.connect(privateKey);
+        }else{
+            this.connect();
+        }
+        return true;
+    }
+
+    /**
      * 파일 업로드
      * @param catalinaHome : 파일경로
      * @param file : 파일
-     * @throws IOException 
+     * @throws IOException
      */
     public void upload(String catalinaHome,File file){
         if(session.isConnected()){
@@ -152,7 +169,7 @@ public class FtpService {
                 e.printStackTrace();
             } finally {
                 try {
-                	System.out.println("hihi");
+                    System.out.println("hihi");
                     // FileInputStream 종료
                     fis.close();
                 } catch (IOException e) {
@@ -161,21 +178,21 @@ public class FtpService {
                 }
             }
         }else{
-        	System.out.println("hihi");
+            System.out.println("hihi");
         }
     }
-    
+
     /**
      * 파일 리스트 가져오기
      * @param catalinaHome : 경로
      * @return
      */
     public Vector getFileList(String catalinaHome){
-    	try {
-    		return channelSFtp.ls(catalinaHome);
-		} catch (SftpException e) {
-			e.printStackTrace();
-		}
-		return null;
+        try {
+            return channelSFtp.ls(catalinaHome);
+        } catch (SftpException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -27,14 +27,14 @@ public class SshServiceTest{
 
     public void testConnect() throws IOException {
         sshService.connect();
-        sshService.disconnect();
+        sshService.disConnect();
     }
 
     @Test
     public void testPemConnect() throws IOException, JSchException {
         sshService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
         sshService.sendExec("ls -al");
-        sshService.disconnect();
+        sshService.disConnect();
     }
     @Test
     public void testDisconnect() {

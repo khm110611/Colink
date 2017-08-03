@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import univ.smu.w9.colink.guiComponent.MySshArea;
 import univ.smu.w9.colink.service.SshService;
+import univ.smu.w9.colink.vo.SiteVO;
 
 /**
  * SSH 메인화면

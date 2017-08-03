@@ -12,14 +12,14 @@ import univ.smu.w9.colink.vo.UserVO;
 import univ.smu.w9.common.CommonString;
 
 public class FtpServiceTest {
-	
+
     UserVO ftpUser;
     FtpService ftpService;
 
     @Before
     public void initTest(){
-    	ftpUser = new UserVO();
-    	ftpUser.setHostName("ec2-13-124-89-33.ap-northeast-2.compute.amazonaws.com");
+        ftpUser = new UserVO();
+        ftpUser.setHostName("ec2-13-124-89-33.ap-northeast-2.compute.amazonaws.com");
         ftpUser.setPassword("");
         ftpUser.setPort(22);
         ftpUser.setUser("ubuntu");
@@ -28,15 +28,15 @@ public class FtpServiceTest {
     }
 
     public void testConnect() throws IOException {
-    	ftpService.connect();
-        ftpService.disconnect();
+        ftpService.connect();
+        ftpService.disConnect();
     }
 
     @Test
     public void testPemConnect() throws IOException, JSchException {
-    	ftpService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
-    	ftpService.upload("/home/ubuntu",new File(CommonString.DESKTOP_PATH+"/sukhwan.ppk"));
-    	ftpService.disconnect();
+        ftpService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
+        ftpService.upload("/home/ubuntu",new File(CommonString.DESKTOP_PATH+"/sukhwan.ppk"));
+        ftpService.disConnect();
     }
     @Test
     public void testDisconnect() {
@@ -45,11 +45,11 @@ public class FtpServiceTest {
     @Test
     public void testSendExec() {
     }
-    
+
     @Test
     public void testGetFileList(){
-    	ftpService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
-    	ftpService.getFileList("/home/ubuntu");
-    	ftpService.disconnect();
+        ftpService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
+        ftpService.getFileList("/home/ubuntu");
+        ftpService.disConnect();
     }
 }

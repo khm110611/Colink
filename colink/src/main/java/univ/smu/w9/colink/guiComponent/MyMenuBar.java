@@ -1,5 +1,8 @@
 package univ.smu.w9.colink.guiComponent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -8,6 +11,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import univ.smu.w9.colink.gui.SiteManageMain;
+import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.common.CommonString;
@@ -17,7 +21,7 @@ import univ.smu.w9.common.CommonString;
  * @author "SukHwanYoon"
  *
  */
-public class MyMenuBar extends JMenuBar implements MenuListener{
+public class MyMenuBar extends JMenuBar implements ActionListener{
 
     /**
      *
@@ -26,10 +30,11 @@ public class MyMenuBar extends JMenuBar implements MenuListener{
 
     private FtpService ftpService;
     private SshService sshService;
-
-    public MyMenuBar(FtpService ftpService,SshService sshService) {
+    private FileService fileService;
+    public MyMenuBar(FtpService ftpService,SshService sshService,FileService fileService) {
         this.ftpService = ftpService;
         this.sshService = sshService;
+        this.fileService = fileService;
         initMenuBar();
 
     }
@@ -39,37 +44,23 @@ public class MyMenuBar extends JMenuBar implements MenuListener{
 
         // 파일
         JMenu file   = new JMenu("파일");
-        file.add(new JMenuItem("사이트 관리자"));
-        file.add(new JMenuItem("종료"));
-        file.getItem(0).setIcon(UIManager.getIcon("FileChooser.listViewIcon"));
-        file.getItem(1).setIcon(UIManager.getIcon(""));
-        file.addMenuListener(this);
-
-        // 보기
-        JMenu view   = new JMenu("보기");
-        view.add(new JMenuItem("파일 목록 상태 표시줄"));
-        view.add(new JMenuItem("파일 목록창"));
-        view.add(new JMenuItem("SSH창"));
-        view.addMenuListener(this);
-
-        // 전송
-        JMenu send   = new JMenu("전송");
-        JMenu sendType   = new JMenu("전송 유형");
-        sendType.add(new JMenuItem("자동"));
-        sendType.add(new JMenuItem("아스키"));
-        sendType.add(new JMenuItem("바이너리"));
-        send.add(sendType);
-        send.addMenuListener(this);
+        JMenuItem siteManager = new JMenuItem("사이트 관리자");
+        JMenuItem exit = new JMenuItem("종료");
+        siteManager.addActionListener(this);
+        exit.addActionListener(this);
+        file.add(siteManager);
+        file.add(exit);
 
         // 서버
         JMenu server = new JMenu("서버");
-        server.add(new JMenuItem("다시 연결"));
-        server.add(new JMenuItem("연결 종료"));
-        server.addMenuListener(this);
+        JMenuItem reCon = new JMenuItem("다시 연결");
+        JMenuItem disCon = new JMenuItem("연결 종료");
+        reCon.addActionListener(this);
+        disCon.addActionListener(this);
+        server.add(reCon);
+        server.add(disCon);
 
         this.add(file);
-        this.add(view);
-        this.add(send);
         this.add(server);
 
         this.setVisible(true);
@@ -80,40 +71,27 @@ public class MyMenuBar extends JMenuBar implements MenuListener{
         return this;
     }
 
-    public void menuSelected(MenuEvent e) {
+
+    public void actionPerformed(ActionEvent e) {
         JMenuItem jmib = (JMenuItem) e.getSource();
         String jmibT = jmib.getText();
         if(jmibT.equals("사이트 관리자")){
-            new SiteManageMain(ftpService, sshService);
+            new SiteManageMain(ftpService, sshService,fileService);
         }else if(jmib.equals("종료")){
             System.exit(-1);
-        }else if(jmib.equals("파일 목록 상태 표시줄")){
-
-        }else if(jmib.equals("파일 목록창")){
-
-        }else if(jmib.equals("SSH창")){
-
-        }else if(jmib.equals("자동")){
-
-        }else if(jmib.equals("아스키")){
-
-        }else if(jmib.equals("바이너리")){
-
         }else if(jmib.equals("다시 연결")){
-
+            boolean result = sshService.reConnect();
+            if(!result){
+                System.out.println("실패");
+            }
+            result = ftpService.reConnect();
+            if(!result){
+                System.out.println("실패");
+            }
         }else if(jmib.equals("연결 종료")){
-
+            sshService.disConnect();
+            ftpService.disConnect();
         }
-    }
-
-    public void menuCanceled(MenuEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void menuDeselected(MenuEvent e) {
-        // TODO Auto-generated method stub
-
     }
 
 

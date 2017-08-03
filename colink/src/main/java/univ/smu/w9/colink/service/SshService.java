@@ -45,6 +45,9 @@ public class SshService {
     // My sshArea
     private MySshArea mySshaArea;
 
+    // 현재 사이트 pemFile사용 유무
+    boolean pemYn;
+
     /**
      * SSH service init
      * @param sshUser : ssh 사용자 정보
@@ -52,6 +55,7 @@ public class SshService {
     public SshService(UserVO sshUser){
         jsch = new JSch();
         this.sshUser = sshUser;
+        pemYn = false;
     }
 
     /**
@@ -60,6 +64,8 @@ public class SshService {
     public void connect(){
 
         try {
+            pemYn = false;
+
             // 세션 객체 생성
             session = jsch.getSession(sshUser.getUser(),sshUser.getHostName(),sshUser.getPort());
 
@@ -95,6 +101,8 @@ public class SshService {
     public void connect(String privateKey) throws IOException{
 
         try {
+            pemYn = true;
+
             this.privateKey = privateKey;
             // 세션 객체 생성
             jsch.addIdentity(privateKey);
@@ -123,9 +131,29 @@ public class SshService {
     }
 
     /**
+     * 재연결
+     * @throws IOException
+     */
+    public boolean reConnect(){
+        if(this.sshUser == null)
+            return false;
+
+        if(pemYn){
+            try {
+                this.connect(privateKey);
+            } catch (IOException e) {
+                return false;
+            }
+        }else{
+            this.connect();
+        }
+        return true;
+    }
+
+    /**
      *  SSH disconnect
      */
-    public void disconnect(){
+    public void disConnect(){
         channelExec.disconnect();
         channel.disconnect();
         session.disconnect();

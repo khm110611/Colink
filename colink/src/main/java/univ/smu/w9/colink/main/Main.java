@@ -7,6 +7,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.alee.laf.WebLookAndFeel;
 
 import univ.smu.w9.colink.gui.FtpMain;
+import univ.smu.w9.colink.gui.SiteManageMain;
 import univ.smu.w9.colink.gui.SshMain;
 import univ.smu.w9.colink.guiComponent.MyMenuBar;
 import univ.smu.w9.colink.service.FileService;
@@ -75,7 +76,7 @@ public class Main extends JFrame{
         sshMain.setSize(1000, 220);
         sshMain.setLocation(0, 548);
         // GUI - component init
-        menuBar = new MyMenuBar(ftpService, sshService);
+        menuBar = new MyMenuBar(ftpService, sshService,fileService);
 
 
         getContentPane().setLayout(null);
@@ -88,11 +89,11 @@ public class Main extends JFrame{
         this.setTitle("Colink");
         this.repaint();
 
-
     }
 
     public static void main(String[] args) {
         new Main();
+
     }
 
 }

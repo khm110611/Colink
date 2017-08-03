@@ -29,16 +29,16 @@ public class SiteManageMain extends JFrame{
     private MySiteLeftPanel mySiteLeftPanel;
     private MySiteRightPanel mySiteRightPanel;
 
-    public SiteManageMain(FtpService ftpService,SshService sshService) {
+    public SiteManageMain(FtpService ftpService,SshService sshService,FileService fileService) {
         this.ftpService = ftpService;
         this.sshService = sshService;
+        this.fileService = fileService;
         mySiteLeftPanel = new MySiteLeftPanel(fileService);
         mySiteRightPanel = new MySiteRightPanel();
         this.add(mySiteLeftPanel);
         this.add(mySiteRightPanel);
         this.setSize(600,700);
-        this.setVisible(true);
-        changeVisible();
+        this.changeVisible();
     }
 
     /**

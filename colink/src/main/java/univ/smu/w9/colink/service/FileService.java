@@ -3,6 +3,7 @@ package univ.smu.w9.colink.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -80,7 +81,12 @@ public class FileService {
     public List<SiteVO> getSiteList() throws IOException{
         List<SiteVO> siteList = new ArrayList<SiteVO>();
         File siteFile = new File(CommonString.SITE_FILE_PATH);
-        FileReader fileReader = new FileReader(siteFile);
+        FileReader fileReader;
+        try {
+            fileReader = new FileReader(siteFile);
+        } catch (FileNotFoundException e) {
+            return new ArrayList<SiteVO>();
+        }
         BufferedReader fileBufReader = new BufferedReader(fileReader);
         String line;
         StringTokenizer st;
