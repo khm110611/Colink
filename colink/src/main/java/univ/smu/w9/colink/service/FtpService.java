@@ -57,7 +57,10 @@ public class FtpService {
      *  SFTP Connect
      */
     public void connect(){
-
+        if(ftpUser.getPemFile() != null){
+            connect(ftpUser.getPemFile());
+            return;
+        }
         try {
             // 세션 객체 생성
             session = jsch.getSession(ftpUser.getUser(),ftpUser.getHostName(),ftpUser.getPort());
@@ -194,5 +197,13 @@ public class FtpService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * FTP 유저 setter
+     * @param ftpUser : ftp 유저 정보
+     */
+    public void setFtpUser(UserVO ftpUser) {
+        this.ftpUser = ftpUser;
     }
 }

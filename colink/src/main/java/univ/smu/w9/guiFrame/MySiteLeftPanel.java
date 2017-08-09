@@ -11,6 +11,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * 사이트 관리자 좌측
+ * @author "SukHwanYoon"
+ *
+ */
 public class MySiteLeftPanel extends JPanel implements ActionListener{
 
     /**

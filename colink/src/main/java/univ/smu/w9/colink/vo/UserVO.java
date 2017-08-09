@@ -15,9 +15,18 @@ public class UserVO {
     private String user;
     private String password;
     private Integer port;
+    private String pemFile;
 
 
-
+    public String getPemFile() {
+        return pemFile;
+    }
+    public void setPemFile(String pemFile) {
+        this.pemFile = pemFile;
+    }
+    public void setPort(Integer port) {
+        this.port = port;
+    }
     public UserVO() {
         super();
     }

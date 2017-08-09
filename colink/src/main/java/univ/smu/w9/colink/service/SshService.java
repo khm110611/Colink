@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -62,7 +64,10 @@ public class SshService {
      * SSH Connect
      */
     public void connect(){
-
+        if(sshUser.getPemFile() != null){
+            connect(sshUser.getPemFile());
+            return;
+        }
         try {
             pemYn = false;
 
@@ -88,8 +93,8 @@ public class SshService {
             // ssh 채널 객체로 캐스팅
             channelExec = (ChannelExec)channel;
         } catch (JSchException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
+
         }
     }
 
@@ -98,8 +103,7 @@ public class SshService {
      * @param privateKey : pem File
      * @throws IOException
      */
-    public void connect(String privateKey) throws IOException{
-
+    public void connect(String privateKey){
         try {
             pemYn = true;
 
@@ -125,8 +129,7 @@ public class SshService {
             channelExec = (ChannelExec)channel;
 
         } catch (JSchException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -137,13 +140,8 @@ public class SshService {
     public boolean reConnect(){
         if(this.sshUser == null)
             return false;
-
         if(pemYn){
-            try {
-                this.connect(privateKey);
-            } catch (IOException e) {
-                return false;
-            }
+            this.connect(privateKey);
         }else{
             this.connect();
         }
@@ -180,8 +178,19 @@ public class SshService {
         }
         // 연결 해지시
         else{
-            System.out.println("fail");
+            JOptionPane.showMessageDialog(null, "SSH 연결이 필요합니다.", "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
         }
 
     }
+
+
+    /**
+     * userVO setter
+     * @param sshUser
+     */
+    public void setSshUser(UserVO sshUser) {
+        this.sshUser = sshUser;
+    }
+
+
 }
