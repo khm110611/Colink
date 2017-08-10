@@ -17,6 +17,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import univ.smu.w9.colink.guiComponent.MySshArea;
+import univ.smu.w9.colink.guiComponent.MySshField;
 import univ.smu.w9.colink.vo.UserVO;
 
 /**
@@ -45,7 +46,7 @@ public class SshService {
     private String privateKey;
 
     // My sshArea
-    private MySshArea mySshaArea;
+    private MySshArea mySshArea;
 
     // 현재 사이트 pemFile사용 유무
     boolean pemYn;
@@ -163,18 +164,22 @@ public class SshService {
      * @throws JSchException
      * @throws IOException
      */
-    public void sendExec(String exec) throws JSchException, IOException{
+    public void sendExec(String exec){
         //ssh 연결중일때
-        if(session.isConnected()){
+        if(session != null && session.isConnected()){
             channelExec.setCommand(exec);
-            channelExec.connect();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
-            String str;
-            while((str = br.readLine()) != null){
-                System.out.println(str);
+            try {
+                channelExec.connect();
+                BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
+                String str;
+                while((str = br.readLine()) != null){
+                    mySshArea.setText(str+mySshArea.getText());
+                }
+            } catch (JSchException e) {
+                JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
             }
-
         }
         // 연결 해지시
         else{
@@ -192,5 +197,11 @@ public class SshService {
         this.sshUser = sshUser;
     }
 
-
+    /**
+     * mySSH area setter
+     * @param mySSHArea
+     */
+    public void setMySshArea(MySshArea mySshArea){
+        this.mySshArea = mySshArea;
+    }
 }
