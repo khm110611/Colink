@@ -49,18 +49,13 @@ public class Main extends JFrame{
             WebLookAndFeel.globalMenuFont = CommonGUI.PLAIN_NORMAL_FONT;
             WebLookAndFeel.globalControlFont = CommonGUI.PLAIN_SMALL_FONT;
             UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
-
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InstantiationException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (UnsupportedLookAndFeelException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
