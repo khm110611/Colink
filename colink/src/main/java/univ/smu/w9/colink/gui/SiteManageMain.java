@@ -40,6 +40,7 @@ public class SiteManageMain extends JFrame implements ActionListener{
         this.fileService = fileService;
         mySiteLeftPanel = new MySiteLeftPanel(fileService);
         mySiteRightPanel = new MySiteRightPanel();
+        mySiteLeftPanel.setMySiteRightPanel(mySiteRightPanel);
         mySiteLeftPanel.setBounds(0, 0, 200, 604);
         mySiteRightPanel.setSize(368, 604);
         mySiteRightPanel.setLocation(216, 0);

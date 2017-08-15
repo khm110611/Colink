@@ -202,6 +202,7 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
         sshTgBtn.setBounds(12, 10, 135, 23);
         sshTgBtn.setFont(CommonGUI.PLAIN_NORMAL_FONT);
         sshTgBtn.addActionListener(this);
+        sshTgBtn.setSelected(true);
         this.add(sshTgBtn);
 
         ftpTgBtn = new JToggleButton("FTP");
@@ -269,9 +270,11 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
     public UserVO[] getUserVO(){
         if(sshHostField.getText().equals("") || ftpHostField.getText().equals("")){
             JOptionPane.showMessageDialog(null,"호스트 주소를 입력해주세요", "연결 실패", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
         if(sshUserField.getText().equals("") || ftpUserField.getText().equals("")){
             JOptionPane.showMessageDialog(null,"유저 ID를 입력해주세요", "연결 실패", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
         UserVO[] userAry = new UserVO[2];
 
@@ -299,12 +302,26 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
         if(ftpPemFileChooser.getSelectedFile() != null){
             userAry[1].setPemFile(ftpPemFileChooser.getSelectedFile().getPath());
         }
+        this.clearAllField();
         return userAry;
     }
-    
+    private void clearAllField(){
+    	this.siteName.setText("");
+    	this.ftpHostField.setText("");
+    	this.ftpPortField.setText("");
+    	this.ftpPwField.setText("");
+    	this.ftpUserField.setText("");
+    	this.sshHostField.setText("");
+    	this.sshPortField.setText("");
+    	this.sshUserField.setText("");
+    	this.sshPwField.setText("");
+    }
     public SiteVO returnSiteVO(){
     	SiteVO siteVO = new SiteVO();
     	UserVO[] userAry = this.getUserVO();
+    	if(userAry == null){
+    		return null;
+    	}
     	siteVO.setSiteName(this.siteName.getText());
     	siteVO.setSshSiteAdres(this.sshHostField.getText());
     	siteVO.setFtpSiteAdres(this.ftpHostField.getText());
@@ -348,10 +365,8 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
         }else if(text.equals("파일 선택")){
         	if(sshFlag){
         		sshPemFileChooser.showOpenDialog(this);
-        		System.out.println("ssh");
         	}else{
         		ftpPemFileChooser.showOpenDialog(this);
-        		System.out.println("ftp");
         	}
         }
     }

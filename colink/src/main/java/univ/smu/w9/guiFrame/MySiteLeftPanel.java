@@ -7,6 +7,8 @@ import univ.smu.w9.colink.guiComponent.MySiteTree;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
+import univ.smu.w9.colink.vo.SiteVO;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -74,7 +76,12 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     	String text = ((JButton)e.getSource()).getText();
     	if(text.equals("새 사이트")){
-    		mySiteTree.addSiteList(mySiteRightPanel.returnSiteVO());
+    		SiteVO siteVO = mySiteRightPanel.returnSiteVO();
+    		if(siteVO == null){
+    			return;
+    		}else{
+    			mySiteTree.addSiteList(siteVO);	
+    		}
     	}else if(text.equals("삭 제")){
     		boolean flag = mySiteTree.deleteSiteList();
     		if(!flag){

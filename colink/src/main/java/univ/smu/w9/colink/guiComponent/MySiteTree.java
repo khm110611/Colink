@@ -73,14 +73,17 @@ public class MySiteTree implements TreeSelectionListener{
             buf = new DefaultMutableTreeNode(iterator.next().getSiteName());
             root.add(buf);
         }
+        jtree.updateUI();
     }
 
     /**
      * 사이트 리스트에 사이트 추가하기
      */
-    public void addSiteList(SiteVO siteVO){
-        siteList.add(siteVO);
+    public boolean addSiteList(SiteVO siteVO){
+    	siteList.add(siteVO);
         root.add(new DefaultMutableTreeNode(siteVO.getSiteName()));
+        jtree.updateUI();
+        return true;
     }
 
     /**
