@@ -72,7 +72,7 @@ public class Main extends JFrame{
         sshMain.setLocation(0, 548);
         // GUI - component init
         menuBar = new MyMenuBar(ftpService, sshService,fileService);
-
+        menuBar.setMain(this);
 
         getContentPane().setLayout(null);
         getContentPane().add(ftpMain);

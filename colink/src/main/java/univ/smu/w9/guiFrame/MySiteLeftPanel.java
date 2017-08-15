@@ -1,6 +1,6 @@
 package univ.smu.w9.guiFrame;
 
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import univ.smu.w9.colink.guiComponent.MySiteTree;
@@ -35,12 +35,18 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
     private JButton newSite;
     private JButton changeName;
     private JButton deleteSite;
+    
+    private MySiteRightPanel mySiteRightPanel;
 
+    public void setMySiteRightPanel(MySiteRightPanel mySiteRightPanel) {
+		this.mySiteRightPanel = mySiteRightPanel;
+	}
+    
     public MySiteLeftPanel(FileService fileService) {
         this.setLayout(null);
         this.fileService = fileService;
         mySiteTree = new MySiteTree(fileService);
-
+        
         mySiteTree.getjScroll().setSize(190,400);
         mySiteTree.getjScroll().setLocation(0, 0);
         this.add(mySiteTree.getjScroll());
@@ -64,7 +70,19 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
         this.setSize(200,630);
 
     }
+    
     public void actionPerformed(ActionEvent e) {
-
+    	String text = ((JButton)e.getSource()).getText();
+    	if(text.equals("새 사이트")){
+    		mySiteTree.addSiteList(mySiteRightPanel.returnSiteVO());
+    	}else if(text.equals("삭 제")){
+    		boolean flag = mySiteTree.deleteSiteList();
+    		if(!flag){
+    			JOptionPane.showMessageDialog(null, "사이트를 선택해주세요.", "선택 오류", JOptionPane.ERROR_MESSAGE);
+    		}else{
+    			JOptionPane.showMessageDialog(null,"사이트 삭제 완료 되었습니다.");
+    		}
+    	}
     }
+	
 }

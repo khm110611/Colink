@@ -11,6 +11,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import univ.smu.w9.colink.gui.SiteManageMain;
+import univ.smu.w9.colink.main.Main;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
@@ -31,7 +32,14 @@ public class MyMenuBar extends JMenuBar implements ActionListener{
     private FtpService ftpService;
     private SshService sshService;
     private FileService fileService;
-    public MyMenuBar(FtpService ftpService,SshService sshService,FileService fileService) {
+    
+    private Main main;
+    
+	public void setMain(Main main) {
+		this.main = main;
+	}
+
+	public MyMenuBar(FtpService ftpService,SshService sshService,FileService fileService) {
         this.ftpService = ftpService;
         this.sshService = sshService;
         this.fileService = fileService;
@@ -75,11 +83,12 @@ public class MyMenuBar extends JMenuBar implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         JMenuItem jmib = (JMenuItem) e.getSource();
         String jmibT = jmib.getText();
+        System.out.println(jmibT.equals("종료"));
         if(jmibT.equals("사이트 관리자")){
             new SiteManageMain(ftpService, sshService,fileService);
-        }else if(jmib.equals("종료")){
-            System.exit(-1);
-        }else if(jmib.equals("다시 연결")){
+        }else if(jmibT.equals("종료")){
+        	System.exit(0);
+        }else if(jmibT.equals("다시 연결")){
             boolean result = sshService.reConnect();
             if(!result){
                 System.out.println("실패");
@@ -88,7 +97,7 @@ public class MyMenuBar extends JMenuBar implements ActionListener{
             if(!result){
                 System.out.println("실패");
             }
-        }else if(jmib.equals("연결 종료")){
+        }else if(jmibT.equals("연결 종료")){
             sshService.disConnect();
             ftpService.disConnect();
         }

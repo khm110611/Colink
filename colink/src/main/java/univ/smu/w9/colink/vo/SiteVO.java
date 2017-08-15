@@ -22,15 +22,6 @@ public class SiteVO {
      */
     private UserVO sshUser;
 
-    /**
-     * ssh 접속 타입
-     */
-    private String sshConType;
-
-    /**
-     * ssh pem 파일 위치
-     */
-    private String sshPemFile;
 
     /**
      * ftp 접속 주소
@@ -41,11 +32,6 @@ public class SiteVO {
      * ftp 접속 정보
      */
     private UserVO ftpUser;
-
-    /**
-     * ftp pem 파일 위치
-     */
-    private String ftpPemFile;
 
     public String getSiteName() {
         return siteName;
@@ -71,22 +57,6 @@ public class SiteVO {
         this.sshUser = sshUser;
     }
 
-    public String getSshConType() {
-        return sshConType;
-    }
-
-    public void setSshConType(String sshConType) {
-        this.sshConType = sshConType;
-    }
-
-    public String getSshPemFile() {
-        return sshPemFile;
-    }
-
-    public void setSshPemFile(String sshPemFile) {
-        this.sshPemFile = sshPemFile;
-    }
-
     public String getFtpSiteAdres() {
         return ftpSiteAdres;
     }
@@ -103,23 +73,15 @@ public class SiteVO {
         this.ftpUser = ftpUser;
     }
 
-    public String getFtpPemFile() {
-        return ftpPemFile;
-    }
+    public SiteVO() {
+		super();
+	}
 
-    public void setFtpPemFile(String ftpPemFile) {
-        this.ftpPemFile = ftpPemFile;
-    }
-
-
-    public SiteVO(String siteName, String sshSiteAdres, String sshConType, String sshPemFile,String ftpSiteAdres, String ftpPemFile) {
+	public SiteVO(String siteName, String sshSiteAdres,String ftpSiteAdres) {
         super();
         this.siteName = siteName;
         this.sshSiteAdres = sshSiteAdres;
-        this.sshConType = sshConType;
-        this.sshPemFile = sshPemFile;
         this.ftpSiteAdres = ftpSiteAdres;
-        this.ftpPemFile = ftpPemFile;
     }
 
     @Override
@@ -127,10 +89,7 @@ public class SiteVO {
         StringBuilder sb = new StringBuilder();
         sb.append(this.siteName+",");
         sb.append(this.sshSiteAdres+",");
-        sb.append(this.sshConType+",");
-        sb.append(this.sshPemFile+",");
         sb.append(this.ftpSiteAdres+",");
-        sb.append(this.ftpPemFile+",");
         sb.append(this.ftpUser.toString()+",");
         sb.append(this.sshUser.toString());
         return sb.toString();

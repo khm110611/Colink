@@ -6,7 +6,10 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.vo.SiteVO;
@@ -16,7 +19,7 @@ import univ.smu.w9.colink.vo.SiteVO;
  * @author "SukHwanYoon"
  *
  */
-public class MySiteTree {
+public class MySiteTree implements TreeSelectionListener{
 
     /**
      *  jTree
@@ -44,6 +47,7 @@ public class MySiteTree {
         try {
             root = new DefaultMutableTreeNode("사이트 목록");
             jtree = new JTree(root);
+            jtree.addTreeSelectionListener(this);
             jScroll = new JScrollPane(jtree);
             this.fileService = fileService;
             siteList = fileService.getSiteList();
@@ -76,15 +80,20 @@ public class MySiteTree {
      */
     public void addSiteList(SiteVO siteVO){
         siteList.add(siteVO);
+        root.add(new DefaultMutableTreeNode(siteVO.getSiteName()));
     }
 
     /**
      * 사이트 리스트에서 사이트 삭제하기
      * @param idx : 사이트 저장 번호
      */
-    public void deleteSiteList(int idx){
-        siteList.remove(idx);
+    public boolean deleteSiteList(){
+    	if(jtree.getLastSelectedPathComponent() == null || jtree.getLastSelectedPathComponent().toString().equals("사이트 목록")){
+    		return false;
+    	}
+        siteList.remove(root.getIndex((TreeNode)jtree.getLastSelectedPathComponent()));
         makeTreeNode();
+        return true;
     }
 
     /**
@@ -106,6 +115,11 @@ public class MySiteTree {
     public JScrollPane getjScroll() {
         return jScroll;
     }
+
+	public void valueChanged(TreeSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 

@@ -96,11 +96,9 @@ public class FileService {
         while((line = fileBufReader.readLine()) != null){
             st = new StringTokenizer(line, ",");
             siteVO = new SiteVO(st.nextToken(),
-                    st.nextToken(),
-                    st.nextToken(),
-                    st.nextToken(),
-                    st.nextToken(),
-                    st.nextToken());
+                    st.nextToken(),                    
+                    st.nextToken()
+                    );
             ftpUser = new UserVO(st.nextToken()
                     ,st.nextToken()
                     ,st.nextToken()

@@ -33,7 +33,7 @@ public class SshServiceTest{
     @Test
     public void testPemConnect() throws IOException, JSchException {
         sshService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
-        sshService.sendExec("ls -al");
+        sshService.sendExec("vi abc.c");
         sshService.disConnect();
     }
     @Test
