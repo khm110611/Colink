@@ -36,7 +36,7 @@ public class MySshField extends JTextArea implements KeyListener{
         this.getDocument().putProperty("filterNewlines", Boolean.TRUE);
     }
 
-    public void keyPressed(KeyEvent e) {
+    public synchronized void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
             if(!this.getText().equals("")){
                 sshService.sendExec(this.getText());

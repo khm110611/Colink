@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -25,7 +26,7 @@ import univ.smu.w9.colink.vo.UserVO;
  * @author "SukHwanYoon"
  *
  */
-public class SshService {
+public class SshService implements Runnable{
 
     // 연결 객체
     private JSch jsch;
@@ -47,11 +48,14 @@ public class SshService {
 
     // My sshArea
     private MySshArea mySshArea;
-
+    private JScrollPane jscroll;
     // 현재 사이트 pemFile사용 유무
-    boolean pemYn;
+    private boolean pemYn;
 
+    private String exec;
+    
     /**
+     * 
      * SSH service init
      * @param sshUser : ssh 사용자 정보
      */
@@ -95,7 +99,7 @@ public class SshService {
             channelExec = (ChannelExec)channel;
         } catch (JSchException e) {
             JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
-
+            e.printStackTrace();
         }
     }
 
@@ -164,22 +168,13 @@ public class SshService {
      * @throws JSchException
      * @throws IOException
      */
-    public void sendExec(String exec){
+    public synchronized void sendExec(String exec){
         //ssh 연결중일때
         if(session != null && session.isConnected()){
-            channelExec.setCommand(exec);
-            try {
-                channelExec.connect();
-                BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
-                String str;
-                while((str = br.readLine()) != null){
-                    mySshArea.setText(str+mySshArea.getText());
-                }
-            } catch (JSchException e) {
-                JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
-            }
+            this.exec = exec;
+            Thread thread = new Thread(this);
+            thread.run();
+            thread.interrupt();
         }
         // 연결 해지시
         else{
@@ -204,4 +199,42 @@ public class SshService {
     public void setMySshArea(MySshArea mySshArea){
         this.mySshArea = mySshArea;
     }
+
+    public void run() {
+    	this.connect();
+    	channelExec.setCommand(exec);
+    	if(exec.equals("clear")){
+    		mySshArea.setText("");
+    		mySshArea.updateUI();
+        	jscroll.getVerticalScrollBar().setValue(jscroll.getVerticalScrollBar().getMaximum());
+        	jscroll.updateUI();
+    	}else{
+	        try {
+	            channelExec.connect();
+	            BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
+	            String str;
+	            while((str = br.readLine()) != null){
+	            	mySshArea.append(str+"\n");
+	            }
+	            br.readLine();
+	            
+	        } catch (JSchException e) {
+	            JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
+	        } catch (IOException e) {
+	            JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
+	        }finally {
+	        	channelExec.disconnect();
+	        	mySshArea.updateUI();
+	        	jscroll.getVerticalScrollBar().setValue(jscroll.getVerticalScrollBar().getMaximum());
+	        	jscroll.updateUI();
+	        }
+        }
+    }
+
+	public void setJscroll(JScrollPane jscroll) {
+		this.jscroll = jscroll;
+	}
+    
+    
+    
 }

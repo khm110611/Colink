@@ -42,8 +42,8 @@ public class FtpMain extends JPanel{
 
 
         userFolderTree.getjScroll().setLocation(0,0);
-        userFolderTree.getjScroll().setSize(500, 350);
-        userFileTree.getjScroll().setLocation(0, 350);
+        userFolderTree.getjScroll().setSize(500, 250);
+        userFileTree.getjScroll().setLocation(0, 250);
         userFileTree.getjScroll().setSize(500, 200);
 
         serverFileTree   = new MyFileJTree();
@@ -51,8 +51,8 @@ public class FtpMain extends JPanel{
 
 
         serverFolderTree.getjScroll().setLocation(500,0);
-        serverFolderTree.getjScroll().setSize(500, 350);
-        serverFileTree.getjScroll().setLocation(500, 350);
+        serverFolderTree.getjScroll().setSize(500, 250);
+        serverFileTree.getjScroll().setLocation(500, 250);
         serverFileTree.getjScroll().setSize(500, 200);
 
         // Add component

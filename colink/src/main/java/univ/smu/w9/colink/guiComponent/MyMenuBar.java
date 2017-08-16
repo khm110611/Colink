@@ -83,7 +83,6 @@ public class MyMenuBar extends JMenuBar implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         JMenuItem jmib = (JMenuItem) e.getSource();
         String jmibT = jmib.getText();
-        System.out.println(jmibT.equals("종료"));
         if(jmibT.equals("사이트 관리자")){
             new SiteManageMain(ftpService, sshService,fileService);
         }else if(jmibT.equals("종료")){

@@ -66,10 +66,11 @@ public class Main extends JFrame{
 
         // GUI - Jpanel init
         ftpMain = new FtpMain(ftpService, fileService);
-        ftpMain.setSize(1000, 550);
+        ftpMain.setLocation(0, 0);
+        ftpMain.setSize(1000, 450);
         sshMain = new SshMain(sshService);
-        sshMain.setSize(1000, 220);
-        sshMain.setLocation(0, 548);
+        sshMain.setSize(1000, 199);
+        sshMain.setLocation(0, 447);
         // GUI - component init
         menuBar = new MyMenuBar(ftpService, sshService,fileService);
         menuBar.setMain(this);
@@ -77,7 +78,7 @@ public class Main extends JFrame{
         getContentPane().setLayout(null);
         getContentPane().add(ftpMain);
         getContentPane().add(sshMain);
-        this.setSize(1016,830);
+        this.setSize(1016,716);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setJMenuBar(menuBar);
         this.setVisible(true);
@@ -88,7 +89,6 @@ public class Main extends JFrame{
 
     public static void main(String[] args) {
         new Main();
-
     }
 
 }
