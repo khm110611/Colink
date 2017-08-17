@@ -9,6 +9,9 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
+import com.jcraft.jsch.ChannelSftp;
 
 /**
  * 폴더 Tree
@@ -36,13 +39,20 @@ public class MyFolderJTree implements TreeSelectionListener{
      * 파일트리
      */
     private MyFileJTree fileJTree;
-
+    
+    /**
+     * jTreeModel
+     */
+    private DefaultTreeModel jTreeModel;
+    
     /**
      * jTree 초기화
      */
     public MyFolderJTree() {
         root = new DefaultMutableTreeNode();
         jTree = new JTree(root);
+        jTree.addTreeSelectionListener(this);
+        jTreeModel = (DefaultTreeModel) jTree.getModel();
         jScroll = new JScrollPane(jTree);
     }
 
@@ -59,7 +69,7 @@ public class MyFolderJTree implements TreeSelectionListener{
 
         jTree = new JTree(root);
         jTree.addTreeSelectionListener(this);
-
+        jTreeModel = (DefaultTreeModel) jTree.getModel();
         jScroll = new JScrollPane(jTree);
 
     }
@@ -81,14 +91,14 @@ public class MyFolderJTree implements TreeSelectionListener{
      * @param rootName
      * @param vector
      */
-    public void setByVector(String rootName,Vector vector){
+    public void setByVector(String rootName,Vector<ChannelSftp.LsEntry> vector){
         root = new DefaultMutableTreeNode(rootName);
-        Iterator iterator = vector.iterator();
+        Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
         while(iterator.hasNext()){
-            System.out.println(iterator.next());
-            root.add(new DefaultMutableTreeNode(iterator.next()));
+        	root.add(new DefaultMutableTreeNode(iterator.next().getFilename()));
         }
-        this.jTree.updateUI();
+        jTreeModel.setRoot(root);
+        jTree.updateUI();
     }
 
     /**

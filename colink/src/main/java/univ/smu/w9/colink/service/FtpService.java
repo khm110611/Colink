@@ -199,8 +199,9 @@ public class FtpService {
      * @return
      */
     public Vector getFileList(String catalinaHome){
-        try {
-            return channelSFtp.ls(catalinaHome);
+    	try {
+        	channelSFtp.cd(catalinaHome);
+            return channelSFtp.ls(".");
         } catch (SftpException e) {
             e.printStackTrace();
         }
