@@ -6,7 +6,6 @@ import javax.swing.JTextArea;
 
 import univ.smu.w9.common.CommonGUI;
 
-@SuppressWarnings("serial")
 public class MySshArea extends JTextArea{
 
     public MySshArea() {

@@ -1,6 +1,8 @@
 package univ.smu.w9.colink.gui;
 
 import java.awt.Color;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,7 +38,7 @@ public class SshMain extends JPanel{
         sshService.setJscroll(jsrp);
         this.sshService.setMySshArea(mySshArea);
         this.add(mySshField);
-        
+
         this.add(jsrp);
         this.setLayout(null);
         this.setVisible(true);

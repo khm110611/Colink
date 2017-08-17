@@ -1,6 +1,8 @@
 package univ.smu.w9.colink.guiComponent;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -72,6 +74,21 @@ public class MyFolderJTree implements TreeSelectionListener{
         makeTreeModel(rootName,root);
 
         jTree.updateUI();
+    }
+
+    /**
+     * 벡터로 초기화
+     * @param rootName
+     * @param vector
+     */
+    public void setByVector(String rootName,Vector vector){
+        root = new DefaultMutableTreeNode(rootName);
+        Iterator iterator = vector.iterator();
+        while(iterator.hasNext()){
+            System.out.println(iterator.next());
+            root.add(new DefaultMutableTreeNode(iterator.next()));
+        }
+        this.jTree.updateUI();
     }
 
     /**

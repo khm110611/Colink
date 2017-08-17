@@ -22,6 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/sukhwan/Desktop/weblaf-1.29.jar"/>
+	<classpathentry kind="lib" path="src/main/resource/weblaf-1.29.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

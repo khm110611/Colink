@@ -53,9 +53,9 @@ public class SshService implements Runnable{
     private boolean pemYn;
 
     private String exec;
-    
+
     /**
-     * 
+     *
      * SSH service init
      * @param sshUser : ssh 사용자 정보
      */
@@ -201,40 +201,41 @@ public class SshService implements Runnable{
     }
 
     public void run() {
-    	this.connect();
-    	channelExec.setCommand(exec);
-    	if(exec.equals("clear")){
-    		mySshArea.setText("");
-    		mySshArea.updateUI();
-        	jscroll.getVerticalScrollBar().setValue(jscroll.getVerticalScrollBar().getMaximum());
-        	jscroll.updateUI();
-    	}else{
-	        try {
-	            channelExec.connect();
-	            BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
-	            String str;
-	            while((str = br.readLine()) != null){
-	            	mySshArea.append(str+"\n");
-	            }
-	            br.readLine();
-	            
-	        } catch (JSchException e) {
-	            JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
-	        } catch (IOException e) {
-	            JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
-	        }finally {
-	        	channelExec.disconnect();
-	        	mySshArea.updateUI();
-	        	jscroll.getVerticalScrollBar().setValue(jscroll.getVerticalScrollBar().getMaximum());
-	        	jscroll.updateUI();
-	        }
+        this.connect();
+        channelExec.setCommand(exec);
+        if(exec.equals("clear")){
+            mySshArea.setText("");
+            mySshArea.updateUI();
+
+            jscroll.updateUI();
+        }else{
+            try {
+                channelExec.connect();
+                BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
+                String str;
+                while((str = br.readLine()) != null){
+                    mySshArea.append(str+"\n");
+                }
+                br.readLine();
+
+            } catch (JSchException e) {
+                JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e.getCause(), "SSH 연결 실패", JOptionPane.ERROR_MESSAGE);
+            }finally {
+                channelExec.disconnect();
+                mySshArea.updateUI();
+                jscroll.updateUI();
+                jscroll.getVerticalScrollBar().setValue(mySshArea.getHeight());
+                jscroll.getVerticalScrollBar().updateUI();
+            }
         }
     }
 
-	public void setJscroll(JScrollPane jscroll) {
-		this.jscroll = jscroll;
-	}
-    
-    
-    
+    public void setJscroll(JScrollPane jscroll) {
+        this.jscroll = jscroll;
+    }
+
+
+
 }

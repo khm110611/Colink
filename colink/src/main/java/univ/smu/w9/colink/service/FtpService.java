@@ -15,6 +15,8 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+import univ.smu.w9.colink.guiComponent.MyFileJTree;
+import univ.smu.w9.colink.guiComponent.MyFolderJTree;
 import univ.smu.w9.colink.vo.UserVO;
 
 /**
@@ -25,25 +27,28 @@ import univ.smu.w9.colink.vo.UserVO;
 public class FtpService {
 
     // 연결 객체
-    JSch jsch;
+    private JSch jsch;
 
     // 연결 session
-    Session session;
+    private Session session;
 
     // 연결 channel
-    Channel channel;
+    private Channel channel;
 
     // FTP channel
-    ChannelSftp channelSFtp;
+    private ChannelSftp channelSFtp;
 
     // 사용자
-    UserVO ftpUser;
+    private UserVO ftpUser;
 
     // pem file
-    String privateKey;
+    private String privateKey;
 
     // 현재 사이트 pemFile사용 유무
-    boolean pemYn;
+    private boolean pemYn;
+
+    private MyFolderJTree ftpFolderTree;
+    private MyFileJTree ftpFileTree;
     /**
      * FTP Service Init
      * @param ftpUser : FTP 사용자
@@ -116,6 +121,8 @@ public class FtpService {
             channel.connect();
             // ssh 채널 객체로 캐스팅
             channelSFtp = (ChannelSftp)channel;
+
+            ftpFolderTree.setByVector("/home", this.getFileList("/home"));
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -153,6 +160,7 @@ public class FtpService {
      * @throws IOException
      */
     public void upload(String catalinaHome,File file){
+        this.connect();
         if(session.isConnected()){
             FileInputStream fis = null;
             try {
@@ -199,6 +207,7 @@ public class FtpService {
         return null;
     }
 
+
     /**
      * FTP 유저 setter
      * @param ftpUser : ftp 유저 정보
@@ -206,4 +215,23 @@ public class FtpService {
     public void setFtpUser(UserVO ftpUser) {
         this.ftpUser = ftpUser;
     }
+
+
+    /**
+     * 폴더 트리
+     * @param ftpFolderTree
+     */
+    public void setFtpFolderTree(MyFolderJTree ftpFolderTree) {
+        this.ftpFolderTree = ftpFolderTree;
+    }
+
+    /**
+     * 파일 트리
+     * @param ftpFileTree
+     */
+    public void setFtpFileTree(MyFileJTree ftpFileTree) {
+        this.ftpFileTree = ftpFileTree;
+    }
+
+
 }

@@ -62,6 +62,9 @@ public class FtpMain extends JPanel{
         this.add(serverFolderTree.getjScroll());
         this.add(serverFileTree.getjScroll());
 
+        ftpService.setFtpFolderTree(serverFolderTree);
+        ftpService.setFtpFileTree(serverFileTree);
+
         // frame init
         this.setLayout(null);
         this.setVisible(true);
