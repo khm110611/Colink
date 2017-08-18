@@ -48,7 +48,8 @@ public class FtpMain extends JPanel{
 
         serverFileTree   = new MyFileJTree();
         serverFolderTree = new MyFolderJTree();
-
+        serverFileTree.setServerYn(true);
+        serverFolderTree.setServerYn(true);
 
         serverFolderTree.getjScroll().setLocation(500,0);
         serverFolderTree.getjScroll().setSize(500, 250);

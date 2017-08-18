@@ -1,6 +1,8 @@
 package univ.smu.w9.colink.guiComponent;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -8,6 +10,8 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
+import com.jcraft.jsch.ChannelSftp;
 
 /**
  * File tree
@@ -35,6 +39,11 @@ public class MyFileJTree implements TreeSelectionListener{
      * jTreeModel
      */
     private DefaultTreeModel jTreeModel;
+
+    /**
+     * Server : true , local : false
+     */
+    private boolean ServerYn;
 
     /**
      * jTree 초기화
@@ -96,6 +105,21 @@ public class MyFileJTree implements TreeSelectionListener{
     }
 
     /**
+     * 벡터로 초기화
+     * @param rootName
+     * @param vector
+     */
+    public void setByVector(String rootName,Vector<ChannelSftp.LsEntry> vector){
+        root = new DefaultMutableTreeNode(rootName);
+        Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
+        while(iterator.hasNext()){
+            root.add(new DefaultMutableTreeNode(rootName+"/"+iterator.next().getFilename()));
+        }
+        jTreeModel.setRoot(root);
+        jTree.updateUI();
+    }
+
+    /**
      * JScrollPane return
      */
     public JScrollPane getjScroll() {
@@ -110,5 +134,12 @@ public class MyFileJTree implements TreeSelectionListener{
         // TODO Auto-generated method stub
 
     }
+
+
+    public void setServerYn(boolean serverYn) {
+        ServerYn = serverYn;
+    }
+
+
 
 }

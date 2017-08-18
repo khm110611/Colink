@@ -3,7 +3,10 @@ package univ.smu.w9.colink.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -88,6 +91,8 @@ public class FtpService {
             channel.connect();
             // ssh 채널 객체로 캐스팅
             channelSFtp = (ChannelSftp)channel;
+            ftpFolderTree.setByVector("/home", this.getFolderList("/home"));
+            ftpFileTree.setByVector("/home", this.getFileList("/home"));
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -123,6 +128,7 @@ public class FtpService {
             channelSFtp = (ChannelSftp)channel;
 
             ftpFolderTree.setByVector("/home", this.getFileList("/home"));
+            ftpFileTree.setByVector("/home", this.getFileList("/home"));
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -180,7 +186,6 @@ public class FtpService {
                 e.printStackTrace();
             } finally {
                 try {
-                    System.out.println("hihi");
                     // FileInputStream 종료
                     fis.close();
                 } catch (IOException e) {
@@ -189,8 +194,73 @@ public class FtpService {
                 }
             }
         }else{
-            System.out.println("hihi");
+            //연결 x
         }
+    }
+
+    /**
+     * 하나의 파일을 다운로드 한다.
+     *
+     * @param dir : 저장할 경로(서버)
+     * @param downloadFileName : 다운로드할 파일
+     * @param path : 저장될 공간
+     */
+    public void download(String dir, String downloadFileName, String path) {
+        InputStream in = null;
+        FileOutputStream out = null;
+        try {
+            channelSFtp.cd(dir);
+            in = channelSFtp.get(downloadFileName);
+        } catch (SftpException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            out = new FileOutputStream(new File(path));
+            int i;
+
+            while ((i = in.read()) != -1) {
+                out.write(i);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+    /**
+     * 파일 리스트 가져오기
+     * @param catalinaHome : 경로
+     * @return
+     */
+    public Vector getFileList(String catalinaHome){
+        try {
+            channelSFtp.cd(catalinaHome);
+            Vector<ChannelSftp.LsEntry> vector = channelSFtp.ls(".");
+
+            Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
+            Vector<ChannelSftp.LsEntry> fileList = new Vector<ChannelSftp.LsEntry>();
+            ChannelSftp.LsEntry buf;
+            while(iterator.hasNext()){
+                buf = iterator.next();
+                if(!buf.getAttrs().isDir()){
+                    fileList.add(buf);
+                }
+            }
+            return fileList;
+        } catch (SftpException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -198,10 +268,21 @@ public class FtpService {
      * @param catalinaHome : 경로
      * @return
      */
-    public Vector getFileList(String catalinaHome){
-    	try {
-        	channelSFtp.cd(catalinaHome);
-            return channelSFtp.ls(".");
+    public Vector getFolderList(String catalinaHome){
+        try {
+            channelSFtp.cd(catalinaHome);
+            Vector<ChannelSftp.LsEntry> vector = channelSFtp.ls(".");
+
+            Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
+            Vector<ChannelSftp.LsEntry> folderList = new Vector<ChannelSftp.LsEntry>();
+            ChannelSftp.LsEntry buf;
+            while(iterator.hasNext()){
+                buf = iterator.next();
+                if(!buf.getFilename().equals(".") && buf.getAttrs().isDir()){
+                    folderList.add(buf);
+                }
+            }
+            return folderList;
         } catch (SftpException e) {
             e.printStackTrace();
         }

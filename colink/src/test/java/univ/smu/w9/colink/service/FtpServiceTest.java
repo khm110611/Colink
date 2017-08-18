@@ -35,7 +35,7 @@ public class FtpServiceTest {
     @Test
     public void testPemConnect() throws IOException, JSchException {
         ftpService.connect(CommonString.DESKTOP_PATH+"/sukhwan.ppk");
-        ftpService.upload("/home/ubuntu",new File(CommonString.DESKTOP_PATH+"/sukhwan.ppk"));
+        ftpService.getFolderList("/home/ubuntu");
         ftpService.disConnect();
     }
     @Test

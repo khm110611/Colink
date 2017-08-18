@@ -13,6 +13,8 @@ import javax.swing.tree.DefaultTreeModel;
 
 import com.jcraft.jsch.ChannelSftp;
 
+import univ.smu.w9.colink.service.FtpService;
+
 /**
  * 폴더 Tree
  * @author "SukHwanYoon"
@@ -39,12 +41,18 @@ public class MyFolderJTree implements TreeSelectionListener{
      * 파일트리
      */
     private MyFileJTree fileJTree;
-    
+
     /**
      * jTreeModel
      */
     private DefaultTreeModel jTreeModel;
-    
+
+    /**
+     * Server : true , local : false
+     */
+    private boolean serverYn;
+
+    private FtpService ftpService;
     /**
      * jTree 초기화
      */
@@ -95,7 +103,7 @@ public class MyFolderJTree implements TreeSelectionListener{
         root = new DefaultMutableTreeNode(rootName);
         Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
         while(iterator.hasNext()){
-        	root.add(new DefaultMutableTreeNode(iterator.next().getFilename()));
+            root.add(new DefaultMutableTreeNode(rootName+"/"+iterator.next().getFilename()));
         }
         jTreeModel.setRoot(root);
         jTree.updateUI();
@@ -152,10 +160,26 @@ public class MyFolderJTree implements TreeSelectionListener{
      * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
      */
     public void valueChanged(TreeSelectionEvent e) {
-        if(jTree.getLastSelectedPathComponent() != null){
-            File file = new File(jTree.getLastSelectedPathComponent().toString());
-            fileJTree.initJTree(file.getPath());
+        if(serverYn){
+            if(jTree.getLastSelectedPathComponent() != null){
+                File file = new File(jTree.getLastSelectedPathComponent().toString());
+                fileJTree.setByVector(file.getPath(),ftpService.getFolderList(file.getPath()));
+            }
+        }else{
+            if(jTree.getLastSelectedPathComponent() != null){
+                File file = new File(jTree.getLastSelectedPathComponent().toString());
+                fileJTree.initJTree(file.getPath());
+            }
         }
+
+    }
+
+    public void setServerYn(boolean serverYn) {
+        this.serverYn = serverYn;
+    }
+
+    public void setFtpService(FtpService ftpService) {
+        this.ftpService = ftpService;
     }
 
 
