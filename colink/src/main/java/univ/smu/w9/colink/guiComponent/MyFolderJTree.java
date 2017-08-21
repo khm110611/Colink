@@ -53,6 +53,7 @@ public class MyFolderJTree implements TreeSelectionListener{
     private boolean serverYn;
 
     private FtpService ftpService;
+    
     /**
      * jTree 초기화
      */
@@ -182,5 +183,14 @@ public class MyFolderJTree implements TreeSelectionListener{
         this.ftpService = ftpService;
     }
 
+	public JTree getjTree() {
+		return jTree;
+	}
 
+	public void setjTree(JTree jTree) {
+		this.jTree = jTree;
+	}
+
+    
+    
 }
