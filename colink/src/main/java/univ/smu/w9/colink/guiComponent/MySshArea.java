@@ -8,7 +8,12 @@ import univ.smu.w9.common.CommonGUI;
 
 public class MySshArea extends JTextArea{
 
-    public MySshArea() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7940892807474431615L;
+
+	public MySshArea() {
         this.setBackground(Color.BLACK);
         this.setFont(CommonGUI.PLAIN_NORMAL_FONT);
         this.setForeground(Color.WHITE);

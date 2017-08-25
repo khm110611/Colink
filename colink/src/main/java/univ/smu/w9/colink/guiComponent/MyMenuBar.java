@@ -6,16 +6,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.UIManager;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 import univ.smu.w9.colink.gui.SiteManageMain;
 import univ.smu.w9.colink.main.Main;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
-import univ.smu.w9.common.CommonString;
 
 /**
  * MenuBar class

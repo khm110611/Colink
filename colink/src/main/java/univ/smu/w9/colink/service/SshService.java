@@ -1,11 +1,8 @@
 package univ.smu.w9.colink.service;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -18,7 +15,6 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import univ.smu.w9.colink.guiComponent.MySshArea;
-import univ.smu.w9.colink.guiComponent.MySshField;
 import univ.smu.w9.colink.vo.UserVO;
 
 /**

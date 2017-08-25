@@ -1,16 +1,13 @@
 package univ.smu.w9.colink.gui;
 
 import java.awt.Color;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import univ.smu.w9.colink.guiComponent.MySshField;
 import univ.smu.w9.colink.guiComponent.MySshArea;
+import univ.smu.w9.colink.guiComponent.MySshField;
 import univ.smu.w9.colink.service.SshService;
-import univ.smu.w9.colink.vo.SiteVO;
 
 /**
  * SSH 메인화면

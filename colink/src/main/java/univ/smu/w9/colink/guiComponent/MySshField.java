@@ -1,16 +1,11 @@
 package univ.smu.w9.colink.guiComponent;
 
 import java.awt.Color;
-import java.awt.RenderingHints.Key;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-
-import com.jcraft.jsch.JSchException;
 
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.common.CommonGUI;

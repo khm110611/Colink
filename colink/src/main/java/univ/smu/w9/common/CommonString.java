@@ -1,7 +1,5 @@
 package univ.smu.w9.common;
 
-import java.awt.Font;
-
 /**
  * 공통 코드
  * @author "SukHwanYoon"
