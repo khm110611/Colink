@@ -15,7 +15,16 @@ public class MyTreeNode extends DefaultMutableTreeNode {
 	private static final long serialVersionUID = 4342789708280541543L;
 	
 	private String realPath;
-
+	
+	private String fileName;
+	public MyTreeNode(){
+		
+	}
+	
+	public MyTreeNode(String path){
+		super(path);
+	}
+	
 	public String getRealPath() {
 		return realPath;
 	}
@@ -23,6 +32,15 @@ public class MyTreeNode extends DefaultMutableTreeNode {
 	public void setRealPath(String realPath) {
 		this.realPath = realPath;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 	
 	
 	

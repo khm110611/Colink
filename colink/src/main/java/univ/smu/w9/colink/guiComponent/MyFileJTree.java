@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import com.jcraft.jsch.ChannelSftp;
@@ -37,7 +36,7 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
     /**
      * 루트(최상위) 트리 노드
      */
-    private DefaultMutableTreeNode root;
+    private MyTreeNode root;
 
     /**
      * jTreeModel
@@ -58,7 +57,7 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
      * jTree 초기화
      */
     public MyFileJTree() {
-        root = new DefaultMutableTreeNode();
+        root = new MyTreeNode();
         jTree = new JTree(root);
         jTree.addMouseListener(this);
         jTreeModel = (DefaultTreeModel) jTree.getModel();
@@ -72,7 +71,7 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
     public MyFileJTree(String rootName){
 
 
-        root = new DefaultMutableTreeNode();
+        root = new MyTreeNode();
         makeTreeModel(rootName,root);
 
         jTree = new JTree(root);
@@ -89,7 +88,7 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
      * @param files
      */
     public void initJTree(String rootName){
-        root = new DefaultMutableTreeNode();
+        root = new MyTreeNode();
         makeTreeModel(rootName,root);
         jTreeModel.setRoot(root);
     }
@@ -99,16 +98,21 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
      * @param rootName
      * @param depth
      */
-    public void makeTreeModel(String rootName,DefaultMutableTreeNode root){
+    public void makeTreeModel(String rootName,MyTreeNode root){
         //경로의 전체 파일 검색
         File rootFile = new File(rootName);
         File[] files = rootFile.listFiles();
-        DefaultMutableTreeNode dmtBuf;
+        if(files == null || files.length == 0){
+        	root = new MyTreeNode();
+        	return;
+        }
+        MyTreeNode dmtBuf;
         for(int i=0;i<files.length;i++){
              if(files[i].isDirectory()){
                  continue;
              }
-            dmtBuf = new DefaultMutableTreeNode(files[i].getPath());
+            dmtBuf = new MyTreeNode(files[i].getName());
+            dmtBuf.setRealPath(files[i].getPath());
             root.add(dmtBuf);
         }
     }
@@ -119,10 +123,16 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
      * @param vector
      */
     public void setByVector(String rootName,Vector<ChannelSftp.LsEntry> vector){
-        root = new DefaultMutableTreeNode(rootName);
+        root = new MyTreeNode(rootName);
         Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
+        MyTreeNode mtnBuf;
+        ChannelSftp.LsEntry lsBuf;
         while(iterator.hasNext()){
-            root.add(new DefaultMutableTreeNode(rootName+"/"+iterator.next().getFilename()));
+        	lsBuf = iterator.next();
+        	mtnBuf = new MyTreeNode(lsBuf.getFilename());
+            mtnBuf.setRealPath(rootName+"/"+lsBuf.getFilename());
+            mtnBuf.setFileName(lsBuf.getFilename());
+        	root.add(mtnBuf);
         }
         jTreeModel.setRoot(root);
         jTree.updateUI();
@@ -152,14 +162,14 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
 		if (e.getClickCount() == 2) {
 			if(this.ServerYn){
 				//서버 일때
-				DefaultMutableTreeNode selectedTreeNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
-				ftpService.download(selectedTreeNode.getPath().toString(),
-						selectedTreeNode.getPath().toString(),
-						((DefaultMutableTreeNode)myFolderJtree.getjTree().getLastSelectedPathComponent()).getPath().toString());
+				MyTreeNode selectedTreeNode = (MyTreeNode) jTree.getLastSelectedPathComponent();
+				ftpService.download(selectedTreeNode.getRealPath().toString(),
+						selectedTreeNode.getFileName().toString(),
+						((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString());
 			}else{
-				DefaultMutableTreeNode selectedTreeNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
-				ftpService.upload(((DefaultMutableTreeNode)myFolderJtree.getjTree().getLastSelectedPathComponent()).getPath().toString()
-						, new File(((DefaultMutableTreeNode)myFolderJtree.getjTree().getLastSelectedPathComponent()).getPath().toString()));
+				MyTreeNode selectedTreeNode = (MyTreeNode) jTree.getLastSelectedPathComponent();
+				ftpService.upload(((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString()
+						, new File(((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString()));
 			}
 		}
 			

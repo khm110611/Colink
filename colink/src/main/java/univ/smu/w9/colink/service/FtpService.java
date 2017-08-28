@@ -1,5 +1,7 @@
 package univ.smu.w9.colink.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +22,7 @@ import com.jcraft.jsch.SftpException;
 import univ.smu.w9.colink.guiComponent.MyFileJTree;
 import univ.smu.w9.colink.guiComponent.MyFolderJTree;
 import univ.smu.w9.colink.vo.UserVO;
+import univ.smu.w9.common.CommonString;
 
 /**
  * FTP Service
@@ -126,7 +129,7 @@ public class FtpService {
             // ssh 채널 객체로 캐스팅
             channelSFtp = (ChannelSftp)channel;
 
-            ftpFolderTree.setByVector("/home", this.getFileList("/home"));
+            ftpFolderTree.setByVector("/home", this.getFolderList("/home"));
             ftpFileTree.setByVector("/home", this.getFileList("/home"));
         } catch (JSchException e) {
             // TODO Auto-generated catch block
@@ -171,7 +174,8 @@ public class FtpService {
             try {
                 fis = new FileInputStream(file);
                 // 경로이동
-                channelSFtp.cd(catalinaHome);
+                catalinaHome = catalinaHome.replace("\\", "/");
+        		channelSFtp.cd(catalinaHome);
 
                 //파일 업로드
                 channelSFtp.put(fis,file.getName());
@@ -208,18 +212,23 @@ public class FtpService {
         InputStream in = null;
         FileOutputStream out = null;
         try {
-            channelSFtp.cd(dir);
+        	dir = dir.replace("\\", "/");
+            dir = dir.replace(downloadFileName, "");
+        	channelSFtp.cd(dir);
+            
             in = channelSFtp.get(downloadFileName);
+            channelSFtp.get(downloadFileName,CommonString.DESKTOP_PATH+"/"+downloadFileName );
+            channelSFtp.get(downloadFileName, CommonString.DESKTOP_PATH+"/dee");
         } catch (SftpException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         try {
-            out = new FileOutputStream(new File(path));
+            out = new FileOutputStream(new File(CommonString.DESKTOP_PATH+"/"+downloadFileName));
             int i;
-
             while ((i = in.read()) != -1) {
+            	System.out.print((char)i);
                 out.write(i);
             }
         } catch (IOException e) {
@@ -243,7 +252,9 @@ public class FtpService {
      */
     public Vector getFileList(String catalinaHome){
         try {
-            channelSFtp.cd(catalinaHome);
+        	catalinaHome = catalinaHome.replace("\\", "/");
+    		channelSFtp.cd(catalinaHome);
+    		
             Vector<ChannelSftp.LsEntry> vector = channelSFtp.ls(".");
 
             Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
@@ -263,13 +274,15 @@ public class FtpService {
     }
 
     /**
-     * 파일 리스트 가져오기
+     * 폴더 리스트 가져오기
      * @param catalinaHome : 경로
      * @return
      */
     public Vector getFolderList(String catalinaHome){
-        try {
-            channelSFtp.cd(catalinaHome);
+    	try {
+    		catalinaHome = catalinaHome.replace("\\", "/");
+    		channelSFtp.cd(catalinaHome);
+    		
             Vector<ChannelSftp.LsEntry> vector = channelSFtp.ls(".");
 
             Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
@@ -277,7 +290,7 @@ public class FtpService {
             ChannelSftp.LsEntry buf;
             while(iterator.hasNext()){
                 buf = iterator.next();
-                if(!buf.getFilename().equals(".") && buf.getAttrs().isDir()){
+                if(!buf.getFilename().equals("..") && !buf.getFilename().equals(".") && buf.getAttrs().isDir()){
                     folderList.add(buf);
                 }
             }
