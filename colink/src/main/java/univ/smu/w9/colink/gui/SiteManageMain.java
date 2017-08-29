@@ -3,6 +3,9 @@ package univ.smu.w9.colink.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +22,7 @@ import univ.smu.w9.guiFrame.MySiteRightPanel;
  * @author "SukHwanYoon"
  *
  */
-public class SiteManageMain extends JFrame implements ActionListener{
+public class SiteManageMain extends JFrame implements ActionListener,WindowListener{
 
     /**
      *
@@ -78,7 +81,8 @@ public class SiteManageMain extends JFrame implements ActionListener{
         getContentPane().add(mySiteRightPanel);
         this.setSize(600,700);
         this.changeVisible();
-    }
+        this.addWindowListener(this);
+    }	
 
     /**
      * 창 닫고/열기
@@ -108,5 +112,50 @@ public class SiteManageMain extends JFrame implements ActionListener{
          dispose();
 
     }
+
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//윈도우 닫힐때 사이트 리스트 저장
+	public void windowClosing(WindowEvent e) {
+		try {
+			fileService.saveSiteList(this.mySiteLeftPanel.getMySiteTree().getSiteList());
+		} catch (IOException e1) {
+			// 파일 저장 실패
+			e1.printStackTrace();
+		}
+	}
+
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void windowActivated(WindowEvent e) {
+		try {
+			this.mySiteLeftPanel.getMySiteTree().addSiteList(fileService.getSiteList());
+		} catch (IOException e1) {
+			// 파일 불러 오기 실패
+			e1.printStackTrace();
+		}
+		
+	}
+
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

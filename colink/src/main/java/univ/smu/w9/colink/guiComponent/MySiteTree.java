@@ -85,6 +85,20 @@ public class MySiteTree implements TreeSelectionListener{
         jtree.updateUI();
         return true;
     }
+    
+    /**
+     * 사이트 리스트에 사이트 추가하기
+     */
+    public boolean addSiteList(List<SiteVO> siteList){
+    	this.siteList = siteList;
+    	Iterator<SiteVO> iterator = siteList.iterator();
+    	
+    	while(iterator.hasNext()){
+    		root.add(new DefaultMutableTreeNode(iterator.next().getSiteName()));	
+    	}
+        jtree.updateUI();
+        return true;
+    }
 
     /**
      * 사이트 리스트에서 사이트 삭제하기
@@ -94,7 +108,21 @@ public class MySiteTree implements TreeSelectionListener{
     	if(jtree.getLastSelectedPathComponent() == null || jtree.getLastSelectedPathComponent().toString().equals("사이트 목록")){
     		return false;
     	}
-        siteList.remove(root.getIndex((TreeNode)jtree.getLastSelectedPathComponent()));
+    	DefaultMutableTreeNode delBuf =  (DefaultMutableTreeNode)jtree.getLastSelectedPathComponent();
+    	
+    	//목록에서 삭제
+    	Iterator<SiteVO> iterator = siteList.iterator();
+    	SiteVO buf;
+    	while(iterator.hasNext()){
+    		buf = iterator.next();
+    		if(buf.getSiteName().equals(delBuf.getPath())){
+    			iterator.remove();
+    			break;
+    		}
+    	}
+    	
+    	// 트리에서 삭제
+        siteList.remove(root.getIndex(delBuf));
         makeTreeNode();
         return true;
     }
@@ -124,6 +152,14 @@ public class MySiteTree implements TreeSelectionListener{
 		
 	}
 
+	public List<SiteVO> getSiteList() {
+		return siteList;
+	}
 
+	public void setSiteList(List<SiteVO> siteList) {
+		this.siteList = siteList;
+	}
 
+	
+	
 }

@@ -2,6 +2,8 @@ package univ.smu.w9.guiFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -29,7 +31,6 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
      * 사이트 목록
      */
     private MySiteTree mySiteTree;
-
     private FtpService ftpService;
     private SshService sshService;
     private FileService fileService;
@@ -40,10 +41,6 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
     
     private MySiteRightPanel mySiteRightPanel;
 
-    public void setMySiteRightPanel(MySiteRightPanel mySiteRightPanel) {
-		this.mySiteRightPanel = mySiteRightPanel;
-	}
-    
     public MySiteLeftPanel(FileService fileService) {
         this.setLayout(null);
         this.fileService = fileService;
@@ -70,7 +67,6 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
 
         this.setVisible(true);
         this.setSize(200,630);
-
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -91,5 +87,19 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
     		}
     	}
     }
-	
+    
+    
+    public void setMySiteRightPanel(MySiteRightPanel mySiteRightPanel) {
+		this.mySiteRightPanel = mySiteRightPanel;
+	}
+
+	public MySiteTree getMySiteTree() {
+		return mySiteTree;
+	}
+
+	public void setMySiteTree(MySiteTree mySiteTree) {
+		this.mySiteTree = mySiteTree;
+	}
+    
+    
 }
