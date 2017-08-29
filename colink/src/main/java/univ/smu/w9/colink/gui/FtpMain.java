@@ -40,12 +40,13 @@ public class FtpMain extends JPanel{
         userFileTree   = new MyFileJTree(CommonString.DESKTOP_PATH);
         userFolderTree = new MyFolderJTree(CommonString.DESKTOP_PATH,userFileTree);
 
-
         userFolderTree.getjScroll().setLocation(0,0);
         userFolderTree.getjScroll().setSize(500, 250);
         userFileTree.getjScroll().setLocation(0, 250);
         userFileTree.getjScroll().setSize(500, 200);
 
+        userFileTree.setFtpService(ftpService);
+        
         serverFileTree   = new MyFileJTree();
         serverFolderTree = new MyFolderJTree();
         serverFileTree.setServerYn(true);
@@ -58,7 +59,9 @@ public class FtpMain extends JPanel{
         serverFolderTree.getjScroll().setSize(500, 250);
         serverFileTree.getjScroll().setLocation(500, 250);
         serverFileTree.getjScroll().setSize(500, 200);
+        serverFileTree.setLocalJTree(userFileTree);
 
+        userFileTree.setLocalJTree(serverFileTree);
         // Add component
         this.add(userFolderTree.getjScroll());
         this.add(userFileTree.getjScroll());

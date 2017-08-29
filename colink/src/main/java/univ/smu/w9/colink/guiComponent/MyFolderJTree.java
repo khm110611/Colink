@@ -182,7 +182,7 @@ public class MyFolderJTree implements TreeSelectionListener{
                 File file = new File(((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString().trim());
                 Vector<ChannelSftp.LsEntry> folderVector = ftpService.getFolderList(file.getPath());
                 Vector<ChannelSftp.LsEntry> fileVector = ftpService.getFileList(file.getPath());
-                fileJTree.setByVector(file.getPath(),fileVector);
+                fileJTree.setByVector(file.getName(),file.getPath(),fileVector);
                 Iterator<ChannelSftp.LsEntry> iterator  = folderVector.iterator();
                 MyTreeNode buf;
                 String fileName;
@@ -202,7 +202,7 @@ public class MyFolderJTree implements TreeSelectionListener{
         }else{
             if(jTree.getLastSelectedPathComponent() != null){
                 File file = new File(((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString());
-                fileJTree.initJTree(file.getPath());
+                fileJTree.initJTree(file.getName(),file.getPath());
             }
         }
 

@@ -48,6 +48,8 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
      */
     private boolean ServerYn;
     
+    private MyFileJTree localJTree;
+    
     private FtpService ftpService;
     
     private MyFolderJTree myFolderJtree;
@@ -71,7 +73,7 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
     public MyFileJTree(String rootName){
 
 
-        root = new MyTreeNode();
+        root = new MyTreeNode(rootName);
         makeTreeModel(rootName,root);
 
         jTree = new JTree(root);
@@ -87,23 +89,23 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
      * @param rootName
      * @param files
      */
-    public void initJTree(String rootName){
-        root = new MyTreeNode();
+    public void initJTree(String folderName,String rootName){
+        root = new MyTreeNode(folderName);
+        root.setRealPath(rootName);
         makeTreeModel(rootName,root);
         jTreeModel.setRoot(root);
     }
 
     /**
-     * Recursive Make Tree Model
+     * Make Tree Model
      * @param rootName
-     * @param depth
      */
     public void makeTreeModel(String rootName,MyTreeNode root){
         //경로의 전체 파일 검색
         File rootFile = new File(rootName);
         File[] files = rootFile.listFiles();
         if(files == null || files.length == 0){
-        	root = new MyTreeNode();
+        	root = new MyTreeNode(rootName);
         	return;
         }
         MyTreeNode dmtBuf;
@@ -119,11 +121,14 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
 
     /**
      * 벡터로 초기화
+     * @param fileName
      * @param rootName
      * @param vector
      */
-    public void setByVector(String rootName,Vector<ChannelSftp.LsEntry> vector){
-        root = new MyTreeNode(rootName);
+    public void setByVector(String fileName,String rootName,Vector<ChannelSftp.LsEntry> vector){
+        root = new MyTreeNode(fileName);
+        root.setRealPath(rootName);
+        
         Iterator<ChannelSftp.LsEntry> iterator = vector.iterator();
         MyTreeNode mtnBuf;
         ChannelSftp.LsEntry lsBuf;
@@ -163,13 +168,16 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
 			if(this.ServerYn){
 				//서버 일때
 				MyTreeNode selectedTreeNode = (MyTreeNode) jTree.getLastSelectedPathComponent();
-				ftpService.download(selectedTreeNode.getRealPath().toString(),
-						selectedTreeNode.getFileName().toString(),
-						((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString());
+				//파일 서버 경로, 파일명 , 다운로드 위치
+				ftpService.download(selectedTreeNode.getRealPath(),
+						selectedTreeNode.getFileName(),
+						localJTree.root.getRealPath());
 			}else{
-				MyTreeNode selectedTreeNode = (MyTreeNode) jTree.getLastSelectedPathComponent();
-				ftpService.upload(((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString()
-						, new File(((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString()));
+				if(ftpService.isConnected()){
+					MyTreeNode selectedTreeNode = (MyTreeNode) jTree.getLastSelectedPathComponent();
+					ftpService.upload(localJTree.root.getRealPath()
+							, new File(((MyTreeNode)jTree.getLastSelectedPathComponent()).getRealPath().toString()));	
+				}
 			}
 		}
 			
@@ -203,6 +211,14 @@ public class MyFileJTree implements TreeSelectionListener,MouseListener{
 		this.ftpService = ftpService;
 	}
 
+	public MyFileJTree getLocalJTree() {
+		return localJTree;
+	}
 
+	public void setLocalJTree(MyFileJTree localJTree) {
+		this.localJTree = localJTree;
+	}
+
+	
 
 }

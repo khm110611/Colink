@@ -94,7 +94,7 @@ public class FtpService {
             // ssh 채널 객체로 캐스팅
             channelSFtp = (ChannelSftp)channel;
             ftpFolderTree.setByVector("/home", this.getFolderList("/home"));
-            ftpFileTree.setByVector("/home", this.getFileList("/home"));
+            ftpFileTree.setByVector("/home","/home", this.getFileList("/home"));
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class FtpService {
             channelSFtp = (ChannelSftp)channel;
 
             ftpFolderTree.setByVector("/home", this.getFolderList("/home"));
-            ftpFileTree.setByVector("/home", this.getFileList("/home"));
+            ftpFileTree.setByVector("/home","/home", this.getFileList("/home"));
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -209,39 +209,14 @@ public class FtpService {
      * @param path : 저장될 공간
      */
     public void download(String dir, String downloadFileName, String path) {
-        InputStream in = null;
-        FileOutputStream out = null;
         try {
         	dir = dir.replace("\\", "/");
             dir = dir.replace(downloadFileName, "");
         	channelSFtp.cd(dir);
             
-            in = channelSFtp.get(downloadFileName);
-            channelSFtp.get(downloadFileName,CommonString.DESKTOP_PATH+"/"+downloadFileName );
-            channelSFtp.get(downloadFileName, CommonString.DESKTOP_PATH+"/dee");
+            channelSFtp.get(downloadFileName, path+"/"+downloadFileName);
         } catch (SftpException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-
-        try {
-            out = new FileOutputStream(new File(CommonString.DESKTOP_PATH+"/"+downloadFileName));
-            int i;
-            while ((i = in.read()) != -1) {
-            	System.out.print((char)i);
-                out.write(i);
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            try {
-                out.close();
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
 
     }
@@ -327,5 +302,11 @@ public class FtpService {
         this.ftpFileTree = ftpFileTree;
     }
 
-
+    /**
+     * 연결 상태 확인
+     * @return
+     */
+    public boolean isConnected(){
+    	return channelSFtp.isConnected();
+    }
 }
