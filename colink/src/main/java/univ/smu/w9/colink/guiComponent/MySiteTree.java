@@ -51,7 +51,7 @@ public class MySiteTree implements TreeSelectionListener{
             jScroll = new JScrollPane(jtree);
             this.fileService = fileService;
             siteList = fileService.getSiteList();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -81,6 +81,7 @@ public class MySiteTree implements TreeSelectionListener{
      */
     public boolean addSiteList(SiteVO siteVO){
     	siteList.add(siteVO);
+    	System.out.println(siteVO.getSiteName());
         root.add(new DefaultMutableTreeNode(siteVO.getSiteName()));
         jtree.updateUI();
         return true;

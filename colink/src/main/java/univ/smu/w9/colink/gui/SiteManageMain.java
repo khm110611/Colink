@@ -114,22 +114,25 @@ public class SiteManageMain extends JFrame implements ActionListener,WindowListe
     }
 
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		try {
+			this.mySiteLeftPanel.getMySiteTree().addSiteList(fileService.getSiteList());
+		} catch (Exception e1) {
+			// 파일 불러 오기 실패
+			e1.printStackTrace();
+		}
 	}
 	
-	//윈도우 닫힐때 사이트 리스트 저장
+	
 	public void windowClosing(WindowEvent e) {
 		try {
 			fileService.saveSiteList(this.mySiteLeftPanel.getMySiteTree().getSiteList());
 		} catch (IOException e1) {
 			// 파일 저장 실패
 			e1.printStackTrace();
-		}
+		}		
 	}
-
+	//윈도우 닫힐때 사이트 리스트 저장
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -144,12 +147,6 @@ public class SiteManageMain extends JFrame implements ActionListener,WindowListe
 	}
 
 	public void windowActivated(WindowEvent e) {
-		try {
-			this.mySiteLeftPanel.getMySiteTree().addSiteList(fileService.getSiteList());
-		} catch (IOException e1) {
-			// 파일 불러 오기 실패
-			e1.printStackTrace();
-		}
 		
 	}
 

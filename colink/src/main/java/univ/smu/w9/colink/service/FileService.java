@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.JOptionPane;
+
 import univ.smu.w9.colink.vo.SiteVO;
 import univ.smu.w9.colink.vo.UserVO;
 import univ.smu.w9.common.CommonString;
@@ -78,8 +80,8 @@ public class FileService {
      * @return
      * @throws IOException
      */
-    public List<SiteVO> getSiteList() throws IOException{
-        List<SiteVO> siteList = new ArrayList<SiteVO>();
+    public List<SiteVO> getSiteList(){
+    	List<SiteVO> siteList = new ArrayList<SiteVO>();
         File siteFile = new File(CommonString.SITE_FILE_PATH);
         FileReader fileReader;
         try {
@@ -87,33 +89,38 @@ public class FileService {
         } catch (FileNotFoundException e) {
             return new ArrayList<SiteVO>();
         }
-        BufferedReader fileBufReader = new BufferedReader(fileReader);
-        String line;
-        StringTokenizer st;
-        UserVO ftpUser;
-        UserVO sshUser;
-        SiteVO siteVO;
-        while((line = fileBufReader.readLine()) != null){
-            st = new StringTokenizer(line, ",");
-            siteVO = new SiteVO(st.nextToken(),
-                    st.nextToken(),                    
-                    st.nextToken()
-                    );
-            ftpUser = new UserVO(st.nextToken()
-                    ,st.nextToken()
-                    ,st.nextToken()
-                    ,Integer.parseInt(st.nextToken()));
-            sshUser = new UserVO(st.nextToken()
-                    ,st.nextToken()
-                    ,st.nextToken()
-                    ,Integer.parseInt(st.nextToken()));
-            siteVO.setFtpUser(ftpUser);
-            siteVO.setSshUser(sshUser);
-            siteList.add(siteVO);
-        }
-        fileBufReader.close();
-        fileReader.close();
-        return siteList;
+        try{
+	        BufferedReader fileBufReader = new BufferedReader(fileReader);
+	        String line;
+	        StringTokenizer st;
+	        UserVO ftpUser;
+	        UserVO sshUser;
+	        SiteVO siteVO;
+	        while((line = fileBufReader.readLine()) != null){
+	            st = new StringTokenizer(line, ",");
+	            siteVO = new SiteVO(st.nextToken(),
+	                    st.nextToken(),                    
+	                    st.nextToken()
+	                    );
+	            ftpUser = new UserVO(st.nextToken()
+	                    ,st.nextToken()
+	                    ,st.nextToken()
+	                    ,Integer.parseInt(st.nextToken()));
+	            sshUser = new UserVO(st.nextToken()
+	                    ,st.nextToken()
+	                    ,st.nextToken()
+	                    ,Integer.parseInt(st.nextToken()));
+	            siteVO.setFtpUser(ftpUser);
+	            siteVO.setSshUser(sshUser);
+	            siteList.add(siteVO);
+	        }
+	        fileBufReader.close();
+	        fileReader.close();
+	        return siteList;
+    	} catch(Exception e){
+    		JOptionPane.showMessageDialog(null, "파일불러오기에 실패했습니다.", "파일불러오기 오류", JOptionPane.ERROR_MESSAGE);
+    		return new ArrayList<SiteVO>();
+    	}
     }
 
     /**
@@ -121,6 +128,10 @@ public class FileService {
      * @throws IOException
      */
     public void saveSiteList(List<SiteVO> siteList) throws IOException{
+    	File folder = new File(CommonString.FOLDER_PATH);
+    	if(!folder.exists()){
+    		folder.mkdirs();
+    	}
         File siteFile = new File(CommonString.SITE_FILE_PATH);
         siteFile.delete();
 

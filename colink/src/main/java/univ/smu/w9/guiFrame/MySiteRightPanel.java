@@ -27,7 +27,12 @@ import univ.smu.w9.common.CommonGUI;
  */
 public class MySiteRightPanel extends JPanel implements ActionListener{
 
-    private FtpService ftpService;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7791781084650148997L;
+	
+	private FtpService ftpService;
     private SshService sshService;
     private FileService fileService;
 
@@ -273,37 +278,42 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
             JOptionPane.showMessageDialog(null,"유저 ID를 입력해주세요", "연결 실패", JOptionPane.ERROR_MESSAGE);
             return null;
         }
-        UserVO[] userAry = new UserVO[2];
-
-        userAry[0] = new UserVO();
-        userAry[0].setHostName(sshHostField.getText());
-        userAry[0].setPassword(sshPwField.getText());
-        if(sshPortField.getText().equals("")){
-            userAry[0].setPort(22);
-        }else{
-            userAry[0].setPort(Integer.parseInt(sshPortField.getText()));
+        try{
+	        UserVO[] userAry = new UserVO[2];
+	
+	        userAry[0] = new UserVO();
+	        userAry[0].setHostName(sshHostField.getText());
+	        userAry[0].setPassword(sshPwField.getText());
+	        if(sshPortField.getText().equals("")){
+	            userAry[0].setPort(22);
+	        }else{
+	            userAry[0].setPort(Integer.parseInt(sshPortField.getText()));
+	        }
+	        userAry[0].setUser(sshUserField.getText());
+	        if(sshPemFileChooser.getSelectedFile() != null){
+	            userAry[0].setPemFile(sshPemFileChooser.getSelectedFile().getPath());
+	        }
+	        userAry[1] = new UserVO();
+	        userAry[1].setHostName(ftpHostField.getText());
+	        userAry[1].setPassword(ftpPwField.getText());
+	        if(ftpPortField.getText().equals("")){
+	            userAry[1].setPort(22);
+	        }else{
+	            userAry[1].setPort(Integer.parseInt(ftpPortField.getText()));
+	        }
+	        userAry[1].setUser(ftpUserField.getText());
+	        if(ftpPemFileChooser.getSelectedFile() != null){
+	            userAry[1].setPemFile(ftpPemFileChooser.getSelectedFile().getPath());
+	        }
+	        this.clearAllField();
+	        return userAry;
+        } catch(Exception e){
+        	JOptionPane.showMessageDialog(null, "입력 오류 입니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+        	return null;
         }
-        userAry[0].setUser(sshUserField.getText());
-        if(sshPemFileChooser.getSelectedFile() != null){
-            userAry[0].setPemFile(sshPemFileChooser.getSelectedFile().getPath());
-        }
-        userAry[1] = new UserVO();
-        userAry[1].setHostName(ftpHostField.getText());
-        userAry[1].setPassword(ftpPwField.getText());
-        if(ftpPortField.getText().equals("")){
-            userAry[1].setPort(21);
-        }else{
-            userAry[1].setPort(Integer.parseInt(ftpPortField.getText()));
-        }
-        userAry[1].setUser(ftpUserField.getText());
-        if(ftpPemFileChooser.getSelectedFile() != null){
-            userAry[1].setPemFile(ftpPemFileChooser.getSelectedFile().getPath());
-        }
-        this.clearAllField();
-        return userAry;
     }
+    
     private void clearAllField(){
-    	this.siteName.setText("");
     	this.ftpHostField.setText("");
     	this.ftpPortField.setText("");
     	this.ftpPwField.setText("");
@@ -313,6 +323,7 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
     	this.sshUserField.setText("");
     	this.sshPwField.setText("");
     }
+    
     public SiteVO returnSiteVO(){
     	SiteVO siteVO = new SiteVO();
     	UserVO[] userAry = this.getUserVO();

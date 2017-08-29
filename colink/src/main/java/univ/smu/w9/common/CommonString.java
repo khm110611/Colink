@@ -8,7 +8,7 @@ package univ.smu.w9.common;
 public class CommonString {
 
     // 폴더 설치 경로
-    public static String FOLDER_PATH = System.getProperty("user.home")+"/Desktop/w9";
+    public static String FOLDER_PATH = System.getProperty("user.home")+"/Desktop/w9/";
 
     //바탕화면 경로
     public static final String DESKTOP_PATH = System.getProperty("user.home");
