@@ -66,6 +66,9 @@ public class UserVO {
         StringBuilder sb = new StringBuilder();
         sb.append(this.hostName+",");
         sb.append(this.user+",");
+        if(this.password.equals("")){
+        	this.password = " ";
+        }
         sb.append(this.password+",");
         sb.append(this.port);
         return sb.toString();

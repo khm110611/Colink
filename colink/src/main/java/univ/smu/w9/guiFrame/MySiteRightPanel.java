@@ -270,12 +270,16 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
      * @return
      */
     public UserVO[] getUserVO(){
+    	if(siteName.getText().equals("")){
+    		JOptionPane.showMessageDialog(null,"사이트 이름을 입력해주세요.", "저장 실패", JOptionPane.ERROR_MESSAGE);
+            return null;
+    	}
         if(sshHostField.getText().equals("") || ftpHostField.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"호스트 주소를 입력해주세요", "연결 실패", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"호스트 주소를 입력해주세요", "저장 실패", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         if(sshUserField.getText().equals("") || ftpUserField.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"유저 ID를 입력해주세요", "연결 실패", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"유저 ID를 입력해주세요", "저장 실패", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         try{
@@ -305,7 +309,6 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
 	        if(ftpPemFileChooser.getSelectedFile() != null){
 	            userAry[1].setPemFile(ftpPemFileChooser.getSelectedFile().getPath());
 	        }
-	        this.clearAllField();
 	        return userAry;
         } catch(Exception e){
         	JOptionPane.showMessageDialog(null, "입력 오류 입니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
@@ -313,7 +316,8 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
         }
     }
     
-    private void clearAllField(){
+    public void clearAllField(){
+    	this.siteName.setText("");
     	this.ftpHostField.setText("");
     	this.ftpPortField.setText("");
     	this.ftpPwField.setText("");
@@ -337,6 +341,24 @@ public class MySiteRightPanel extends JPanel implements ActionListener{
     	siteVO.setFtpUser(userAry[1]);
     	
     	return siteVO;
+    }
+    
+    /**
+     * 사이트 정보 저장
+     * @param siteVO
+     */
+    public void setSiteVo(SiteVO siteVO){
+    	this.siteName.setText(siteVO.getSiteName());
+    	this.siteName.updateUI();
+    	this.sshHostField.setText(siteVO.getSshSiteAdres());
+    	this.ftpHostField.setText(siteVO.getFtpSiteAdres());
+    	this.sshUserField.setText(siteVO.getSshUser().getUser());
+    	this.sshPwField.setText(siteVO.getSshUser().getPassword());
+    	this.sshPortField.setText(siteVO.getSshUser().getPort()+"");
+    	this.ftpUserField.setText(siteVO.getFtpUser().getUser());
+    	this.ftpPwField.setText(siteVO.getFtpUser().getPassword());
+    	this.ftpPortField.setText(siteVO.getFtpUser().getPort()+"");
+    	this.updateUI();
     }
     
     public void actionPerformed(ActionEvent e) {

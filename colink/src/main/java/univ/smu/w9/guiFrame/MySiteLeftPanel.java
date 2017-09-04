@@ -73,6 +73,7 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
     	String text = ((JButton)e.getSource()).getText();
     	if(text.equals("새 사이트")){
     		SiteVO siteVO = mySiteRightPanel.returnSiteVO();
+    		mySiteRightPanel.clearAllField();
     		if(siteVO == null){
     			return;
     		}else{
@@ -90,6 +91,7 @@ public class MySiteLeftPanel extends JPanel implements ActionListener{
     
     
     public void setMySiteRightPanel(MySiteRightPanel mySiteRightPanel) {
+    	this.mySiteTree.setMySiteRightPanel(mySiteRightPanel);
 		this.mySiteRightPanel = mySiteRightPanel;
 	}
 

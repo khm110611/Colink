@@ -1,5 +1,9 @@
 package univ.smu.w9.colink.guiComponent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -13,13 +17,14 @@ import javax.swing.tree.TreeNode;
 
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.vo.SiteVO;
+import univ.smu.w9.guiFrame.MySiteRightPanel;
 
 /**
  * 사이트 저장 트리 구조
  * @author "SukHwanYoon"
  *
  */
-public class MySiteTree implements TreeSelectionListener{
+public class MySiteTree implements MouseListener{
 
     /**
      *  jTree
@@ -42,12 +47,17 @@ public class MySiteTree implements TreeSelectionListener{
     private List<SiteVO> siteList;
 
     private FileService fileService;
-
+    
+    /**
+     * 오른쪽 판넬
+     */
+    private MySiteRightPanel mySiteRightPanel;
+    
     public MySiteTree(FileService fileService) {
         try {
             root = new DefaultMutableTreeNode("사이트 목록");
             jtree = new JTree(root);
-            jtree.addTreeSelectionListener(this);
+            jtree.addMouseListener(this);
             jScroll = new JScrollPane(jtree);
             this.fileService = fileService;
             siteList = fileService.getSiteList();
@@ -81,7 +91,6 @@ public class MySiteTree implements TreeSelectionListener{
      */
     public boolean addSiteList(SiteVO siteVO){
     	siteList.add(siteVO);
-    	System.out.println(siteVO.getSiteName());
         root.add(new DefaultMutableTreeNode(siteVO.getSiteName()));
         jtree.updateUI();
         return true;
@@ -93,7 +102,6 @@ public class MySiteTree implements TreeSelectionListener{
     public boolean addSiteList(List<SiteVO> siteList){
     	this.siteList = siteList;
     	Iterator<SiteVO> iterator = siteList.iterator();
-    	
     	while(iterator.hasNext()){
     		root.add(new DefaultMutableTreeNode(iterator.next().getSiteName()));	
     	}
@@ -148,11 +156,6 @@ public class MySiteTree implements TreeSelectionListener{
         return jScroll;
     }
 
-	public void valueChanged(TreeSelectionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public List<SiteVO> getSiteList() {
 		return siteList;
 	}
@@ -161,6 +164,48 @@ public class MySiteTree implements TreeSelectionListener{
 		this.siteList = siteList;
 	}
 
-	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.getClickCount() == 2){
+			DefaultMutableTreeNode selectedTreeNode = (DefaultMutableTreeNode) jtree.getLastSelectedPathComponent();
+			if(!selectedTreeNode.equals(root)){
+				mySiteRightPanel.setSiteVo(siteList.get(root.getIndex(selectedTreeNode)));
+			}
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public MySiteRightPanel getMySiteRightPanel() {
+		return mySiteRightPanel;
+	}
+
+	public void setMySiteRightPanel(MySiteRightPanel mySiteRightPanel) {
+		this.mySiteRightPanel = mySiteRightPanel;
+	}
+
+		
 	
 }

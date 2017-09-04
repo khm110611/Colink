@@ -25,8 +25,6 @@ import univ.smu.w9.common.CommonString;
  */
 public class FileService {
 
-
-
     /**
      * 파일 서비스 초기화
      */
@@ -119,6 +117,7 @@ public class FileService {
 	        return siteList;
     	} catch(Exception e){
     		JOptionPane.showMessageDialog(null, "파일불러오기에 실패했습니다.", "파일불러오기 오류", JOptionPane.ERROR_MESSAGE);
+    		e.printStackTrace();
     		return new ArrayList<SiteVO>();
     	}
     }
@@ -138,7 +137,7 @@ public class FileService {
         BufferedWriter bw = new BufferedWriter(new FileWriter(CommonString.SITE_FILE_PATH));
         Iterator<SiteVO> iterator = siteList.iterator();
         while(iterator.hasNext()){
-            bw.write(iterator.next().toString());
+            bw.write(iterator.next().toString()+"\n");
         }
         bw.close();
     }

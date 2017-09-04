@@ -115,7 +115,9 @@ public class SiteManageMain extends JFrame implements ActionListener,WindowListe
 
 	public void windowOpened(WindowEvent e) {
 		try {
-			this.mySiteLeftPanel.getMySiteTree().addSiteList(fileService.getSiteList());
+			if(this.mySiteLeftPanel.getMySiteTree().getSiteList().isEmpty()){
+				this.mySiteLeftPanel.getMySiteTree().addSiteList(fileService.getSiteList());
+			}
 		} catch (Exception e1) {
 			// 파일 불러 오기 실패
 			e1.printStackTrace();
