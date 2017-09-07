@@ -104,10 +104,12 @@ public class SiteManageMain extends JFrame implements ActionListener,WindowListe
              sshService.setSshUser(mySiteRightPanel.getUserVO()[0]);
              sshService.connect();
          }else if(text.equals("둘다 연결")){
+        	 System.out.println("들어왔음");
              ftpService.setFtpUser(mySiteRightPanel.getUserVO()[1]);
              ftpService.connect();
              sshService.setSshUser(mySiteRightPanel.getUserVO()[0]);
              sshService.connect();
+             System.out.println("끝났음.");
          }
          dispose();
 

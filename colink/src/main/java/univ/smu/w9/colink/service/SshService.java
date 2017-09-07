@@ -1,5 +1,6 @@
 package univ.smu.w9.colink.service;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ import com.jcraft.jsch.Session;
 
 import univ.smu.w9.colink.guiComponent.MySshArea;
 import univ.smu.w9.colink.vo.UserVO;
+import univ.smu.w9.common.CommonString;
 
 /**
  * ssh service
@@ -49,7 +51,9 @@ public class SshService implements Runnable{
     private boolean pemYn;
 
     private String exec;
-
+    
+    private String cdPath;
+    
     /**
      *
      * SSH service init
@@ -65,6 +69,9 @@ public class SshService implements Runnable{
      * SSH Connect
      */
     public void connect(){
+    	if(this.cdPath == null){
+    		this.cdPath = "/home";
+    	}
         if(sshUser.getPemFile() != null){
             connect(sshUser.getPemFile());
             return;
@@ -198,13 +205,22 @@ public class SshService implements Runnable{
 
     public void run() {
         this.connect();
-        channelExec.setCommand(exec);
+        channelExec.setCommand("cd "+cdPath+"\n"+exec);
         if(exec.equals("clear")){
             mySshArea.setText("");
             mySshArea.updateUI();
 
             jscroll.updateUI();
-        }else{
+        }else if(exec.contains("cd")){
+        	exec = exec.substring(exec.indexOf("cd")+3,exec.length());
+        	if(exec.contains("..")){
+        		this.cdPath = this.cdPath.substring(0,this.cdPath.lastIndexOf("/")-1);
+        	}else if(exec.equals("/")){
+        		this.cdPath = "/";
+        	}else{
+        		this.cdPath = this.cdPath+"/"+exec;
+        	}
+    	}else{
             try {
                 channelExec.connect();
                 BufferedReader br = new BufferedReader(new InputStreamReader(channel.getInputStream(), "UTF-8"));
@@ -221,6 +237,8 @@ public class SshService implements Runnable{
             }finally {
                 channelExec.disconnect();
                 mySshArea.updateUI();
+                mySshArea.setBackground(Color.BLACK);
+                mySshArea.setForeground(Color.WHITE);
                 jscroll.updateUI();
                 jscroll.getVerticalScrollBar().setValue(mySshArea.getHeight());
                 jscroll.getVerticalScrollBar().updateUI();
@@ -232,6 +250,13 @@ public class SshService implements Runnable{
         this.jscroll = jscroll;
     }
 
+	public String getCdPath() {
+		return cdPath;
+	}
+
+	public void setCdPath(String cdPath) {
+		this.cdPath = cdPath;
+	}
 
 
 }
