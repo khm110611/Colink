@@ -15,9 +15,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+import univ.smu.w9.colink.common.CommonString;
 import univ.smu.w9.colink.guiComponent.MySshArea;
 import univ.smu.w9.colink.vo.UserVO;
-import univ.smu.w9.common.CommonString;
 
 /**
  * ssh service
@@ -178,6 +178,7 @@ public class SshService implements Runnable{
             Thread thread = new Thread(this);
             thread.run();
             thread.interrupt();
+            
         }
         // 연결 해지시
         else{
@@ -205,6 +206,7 @@ public class SshService implements Runnable{
 
     public void run() {
         this.connect();
+        System.out.println(cdPath);
         channelExec.setCommand("cd "+cdPath+"\n"+exec);
         if(exec.equals("clear")){
             mySshArea.setText("");
@@ -214,7 +216,7 @@ public class SshService implements Runnable{
         }else if(exec.contains("cd")){
         	exec = exec.substring(exec.indexOf("cd")+3,exec.length());
         	if(exec.contains("..")){
-        		this.cdPath = this.cdPath.substring(0,this.cdPath.lastIndexOf("/")-1);
+        		this.cdPath = this.cdPath.substring(0,this.cdPath.lastIndexOf("/"));
         	}else if(exec.equals("/")){
         		this.cdPath = "/";
         	}else{

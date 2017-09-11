@@ -2,11 +2,11 @@ package univ.smu.w9.colink.gui;
 
 import javax.swing.JPanel;
 
+import univ.smu.w9.colink.common.CommonString;
 import univ.smu.w9.colink.guiComponent.MyFileJTree;
 import univ.smu.w9.colink.guiComponent.MyFolderJTree;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
-import univ.smu.w9.common.CommonString;
 
 /**
  * FTP 메인화면

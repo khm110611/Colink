@@ -6,6 +6,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.alee.laf.WebLookAndFeel;
 
+import univ.smu.w9.colink.common.CommonGUI;
 import univ.smu.w9.colink.gui.FtpMain;
 import univ.smu.w9.colink.gui.SshMain;
 import univ.smu.w9.colink.guiComponent.MyMenuBar;
@@ -13,7 +14,6 @@ import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.colink.vo.UserVO;
-import univ.smu.w9.common.CommonGUI;
 
 public class Main extends JFrame{
 

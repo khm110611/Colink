@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import com.jcraft.jsch.JSchException;
 
+import univ.smu.w9.colink.common.CommonString;
 import univ.smu.w9.colink.vo.UserVO;
-import univ.smu.w9.common.CommonString;
 
 public class FtpServiceTest {
 

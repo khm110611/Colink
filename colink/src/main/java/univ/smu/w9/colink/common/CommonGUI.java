@@ -1,4 +1,4 @@
-package univ.smu.w9.common;
+package univ.smu.w9.colink.common;
 
 import java.awt.Font;
 

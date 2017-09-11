@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JTextArea;
 
-import univ.smu.w9.common.CommonGUI;
+import univ.smu.w9.colink.common.CommonGUI;
 
 public class MySshArea extends JTextArea{
 

@@ -1,4 +1,4 @@
-package univ.smu.w9.guiFrame;
+package univ.smu.w9.colink.guiFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

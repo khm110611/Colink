@@ -26,7 +26,7 @@ public class SshMain extends JPanel{
     public SshMain(SshService sshService){
         this.sshService = sshService;
         mySshField = new MySshField(sshService);
-        mySshField.setLocation(0, 170);
+        mySshField.setBounds(2, 170,996,173);
         mySshArea = new MySshArea();
         mySshArea.setBounds(0, 0, 1000, 173);
         jsrp = new JScrollPane(mySshArea);

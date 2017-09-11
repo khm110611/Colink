@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -19,10 +21,10 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+import univ.smu.w9.colink.common.CommonString;
 import univ.smu.w9.colink.guiComponent.MyFileJTree;
 import univ.smu.w9.colink.guiComponent.MyFolderJTree;
 import univ.smu.w9.colink.vo.UserVO;
-import univ.smu.w9.common.CommonString;
 
 /**
  * FTP Service
@@ -179,6 +181,9 @@ public class FtpService {
 
                 //파일 업로드
                 channelSFtp.put(fis,file.getName());
+                
+                JOptionPane.showMessageDialog(null, "파일 전송이 완료 되었습니다.");
+
             }
             // 파일 존재하지 않을때
             catch (FileNotFoundException e) {
@@ -215,6 +220,9 @@ public class FtpService {
         	channelSFtp.cd(dir);
             
             channelSFtp.get(downloadFileName, path+"/"+downloadFileName);
+            
+            JOptionPane.showMessageDialog(null, "파일 다운로드가 완료 되었습니다.");
+
         } catch (SftpException e) {
             e.printStackTrace();
         }

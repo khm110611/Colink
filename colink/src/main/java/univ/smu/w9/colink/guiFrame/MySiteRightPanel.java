@@ -1,4 +1,4 @@
-package univ.smu.w9.guiFrame;
+package univ.smu.w9.colink.guiFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
+import univ.smu.w9.colink.common.CommonGUI;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
 import univ.smu.w9.colink.vo.SiteVO;
 import univ.smu.w9.colink.vo.UserVO;
-import univ.smu.w9.common.CommonGUI;
 
 /**
  * 사이트 관리자 우측

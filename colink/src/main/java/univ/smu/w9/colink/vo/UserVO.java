@@ -30,12 +30,13 @@ public class UserVO {
     public UserVO() {
         super();
     }
-    public UserVO(String hostName, String user, String password, Integer port) {
+    public UserVO(String hostName, String user, String password, Integer port, String pemFile) {
         super();
         this.hostName = hostName;
         this.user = user;
         this.password = password;
         this.port = port;
+        this.pemFile = pemFile;
     }
     public String getHostName() {
         return hostName;
@@ -70,7 +71,8 @@ public class UserVO {
         	this.password = " ";
         }
         sb.append(this.password+",");
-        sb.append(this.port);
+        sb.append(this.port+",");
+        sb.append(this.pemFile);
         return sb.toString();
     }
 

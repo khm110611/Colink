@@ -7,8 +7,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
+import univ.smu.w9.colink.common.CommonGUI;
 import univ.smu.w9.colink.service.SshService;
-import univ.smu.w9.common.CommonGUI;
 
 public class MySshField extends JTextArea implements KeyListener{
 
@@ -24,7 +24,6 @@ public class MySshField extends JTextArea implements KeyListener{
         this.setBackground(Color.BLACK);
         this.setFont(CommonGUI.PLAIN_NORMAL_FONT);
         this.setForeground(Color.WHITE);
-        this.setSize(1000, 30);
         this.setVisible(true);
         this.addKeyListener(this);
         this.setBorder(new LineBorder(Color.BLACK,0));

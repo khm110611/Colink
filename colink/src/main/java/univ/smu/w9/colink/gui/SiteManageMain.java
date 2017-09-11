@@ -10,12 +10,12 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import univ.smu.w9.colink.common.CommonGUI;
+import univ.smu.w9.colink.guiFrame.MySiteLeftPanel;
+import univ.smu.w9.colink.guiFrame.MySiteRightPanel;
 import univ.smu.w9.colink.service.FileService;
 import univ.smu.w9.colink.service.FtpService;
 import univ.smu.w9.colink.service.SshService;
-import univ.smu.w9.common.CommonGUI;
-import univ.smu.w9.guiFrame.MySiteLeftPanel;
-import univ.smu.w9.guiFrame.MySiteRightPanel;
 
 /**
  * 사이트 관리자 화면
@@ -104,12 +104,10 @@ public class SiteManageMain extends JFrame implements ActionListener,WindowListe
              sshService.setSshUser(mySiteRightPanel.getUserVO()[0]);
              sshService.connect();
          }else if(text.equals("둘다 연결")){
-        	 System.out.println("들어왔음");
              ftpService.setFtpUser(mySiteRightPanel.getUserVO()[1]);
              ftpService.connect();
              sshService.setSshUser(mySiteRightPanel.getUserVO()[0]);
              sshService.connect();
-             System.out.println("끝났음.");
          }
          dispose();
 

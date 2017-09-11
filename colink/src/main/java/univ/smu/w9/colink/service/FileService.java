@@ -14,9 +14,9 @@ import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
+import univ.smu.w9.colink.common.CommonString;
 import univ.smu.w9.colink.vo.SiteVO;
 import univ.smu.w9.colink.vo.UserVO;
-import univ.smu.w9.common.CommonString;
 
 /**
  * 파일 Service
@@ -103,11 +103,13 @@ public class FileService {
 	            ftpUser = new UserVO(st.nextToken()
 	                    ,st.nextToken()
 	                    ,st.nextToken()
-	                    ,Integer.parseInt(st.nextToken()));
+	                    ,Integer.parseInt(st.nextToken())
+	                    ,st.nextToken());
 	            sshUser = new UserVO(st.nextToken()
 	                    ,st.nextToken()
 	                    ,st.nextToken()
-	                    ,Integer.parseInt(st.nextToken()));
+	                    ,Integer.parseInt(st.nextToken())
+	                    ,st.nextToken());
 	            siteVO.setFtpUser(ftpUser);
 	            siteVO.setSshUser(sshUser);
 	            siteList.add(siteVO);
